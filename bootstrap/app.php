@@ -63,9 +63,10 @@ $app->singleton(
 //    App\Http\Middleware\ExampleMiddleware::class
 // ]);
 
-// $app->routeMiddleware([
-//     'auth' => App\Http\Middleware\Authenticate::class,
-// ]);
+$app->routeMiddleware([
+    'is_travis_ip' => App\Http\Middleware\IsTravisIP::class,
+    'is_repo_legit' => App\Http\Middleware\IsRepoLegit::class,
+]);
 
 /*
 |--------------------------------------------------------------------------
@@ -78,7 +79,7 @@ $app->singleton(
 |
 */
 
-// $app->register(App\Providers\AppServiceProvider::class);
+$app->register(App\Providers\AppServiceProvider::class);
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 
