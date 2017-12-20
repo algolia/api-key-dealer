@@ -15,4 +15,4 @@ $router->get('/', function () {
     return 'It works!';
 });
 
-$router->get('/1/travis/keys/new', 'TravisController@handle');
+$router->post('/1/travis/keys/new', 'TravisController@handle');
