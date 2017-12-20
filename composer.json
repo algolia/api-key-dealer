@@ -9,7 +9,8 @@
         "laravel/lumen-framework": "5.5.*",
         "vlucas/phpdotenv": "~2.2",
         "firebase/php-jwt": "^5.0",
-        "algolia/algoliasearch-client-php": "^1.24"
+        "algolia/algoliasearch-client-php": "^1.24",
+        "fideloper/proxy": "^3.3"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

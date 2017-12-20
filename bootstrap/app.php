@@ -59,9 +59,9 @@ $app->singleton(
 |
 */
 
-// $app->middleware([
-//    App\Http\Middleware\ExampleMiddleware::class
-// ]);
+$app->middleware([
+    \Fideloper\Proxy\TrustProxies::class,
+]);
 
 $app->routeMiddleware([
     'is_travis_ip' => App\Http\Middleware\IsTravisIP::class,
@@ -79,6 +79,7 @@ $app->routeMiddleware([
 |
 */
 
+$app->register(\Fideloper\Proxy\TrustedProxyServiceProvider::class);
 $app->register(App\Providers\AppServiceProvider::class);
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
