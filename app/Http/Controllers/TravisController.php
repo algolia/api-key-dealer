@@ -27,6 +27,7 @@ class TravisController extends Controller
     public function handle(Request $request)
     {
         $ip = $request->getClientIp();
+        $validity = env('APP_DEBUG') ? 60 : 5400;
 
         $response = $this->algolia->addApiKey([
             'acl' => [
@@ -38,11 +39,11 @@ class TravisController extends Controller
                 'deleteIndex',
                 'editSettings'
             ],
-            'validity' => 5400, // 90 minutes
+            'validity' => $validity,
             'maxQueriesPerIPPerHour' => 1000,
             'maxHitsPerQuery' => 50,
             'indexes' => ['TRAVIS_*'],
-        ], 60); // TODO: THIS HAS TO BE REMOVED
+        ]);
 
         $key = Client::generateSecuredApiKey($response['key'], ['restrictSources' => $ip]);
 

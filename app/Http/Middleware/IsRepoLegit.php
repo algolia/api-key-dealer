@@ -35,7 +35,7 @@ class IsRepoLegit
         $job = $travis->getJob($jobId);
 
         $statusOk = 'started' === $job['job']['state'];
-        $repoOk = 'julienbo' === substr($job['job']['repository_slug'], 0, 8);
+        $repoOk = 'algolia/' === substr($job['job']['repository_slug'], 0, 8);
 
         return $statusOk && $repoOk;
     }
