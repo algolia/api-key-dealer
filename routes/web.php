@@ -11,8 +11,10 @@
 |
 */
 
-$router->get('/', function (\Illuminate\Http\Request $request) {
-    return $request->getClientIp();
-});
+if (env('APP_DEBUG')) {
+    $router->get('/', function (\Illuminate\Http\Request $request) {
+        return ['message' => 'It works!'];
+    });
+}
 
 $router->post('/1/travis/keys/new', 'TravisController@handle');
