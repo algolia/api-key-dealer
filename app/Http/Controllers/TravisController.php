@@ -24,7 +24,7 @@ class TravisController extends Controller
         $this->algolia = $client;
     }
 
-    public function handle(Request $request)
+    public function createNewKey(Request $request)
     {
         $ip = $request->getClientIp();
         $validity = env('APP_DEBUG') ? 60 : 5400;
@@ -47,13 +47,13 @@ class TravisController extends Controller
 
         $key = Client::generateSecuredApiKey($response['key'], ['restrictSources' => $ip]);
 
-        return $this->sendKey($key);
+        return response(['admin_key' => $key], 201);
     }
 
-    private function sendKey($key)
+    public function deleteKey($key)
     {
-        return [
-            'admin_key' => $key
-        ];
+        $this->algolia->deleteApiKey($key);
+
+        return response('', 204);
     }
 }

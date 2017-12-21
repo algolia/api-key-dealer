@@ -17,4 +17,5 @@ if (env('APP_DEBUG')) {
     });
 }
 
-$router->post('/1/travis/keys/new', 'TravisController@handle');
+$router->post('/1/travis/keys/new', 'TravisController@createNewKey');
+$router->delete('/1/travis/keys/{key}', 'TravisController@deleteKey');
