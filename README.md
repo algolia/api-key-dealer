@@ -12,8 +12,7 @@ Host is in the Github description ☝️
 ```
 POST /1/travis/keys/new
 {
-    "repository": "algola/repo-name",
-    "travis_job_id": value 
+    "TRAVIS_JOB_ID": value 
 }
 ```
 
@@ -24,7 +23,6 @@ The job ID can be found in the env variable `TRAVIS_JOB_ID` (it's set automatica
 ```
 POST /1/travis/keys/{key_to_delete}/delete
 {
-    "repository": "algola/repo-name",
-    "travis_job_id": value 
+    "TRAVIS_JOB_ID": value 
 }
 ```

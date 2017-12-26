@@ -16,13 +16,14 @@ class TravisController extends Controller
             $this->middleware('is_travis_ip');
             $this->middleware('is_repo_legit');
         }
+
+        $this->middleware('set_repo_config');
     }
 
     public function createNewKey(Request $request)
     {
+        $config = config('repository-config');
         $ip = $request->getClientIp();
-
-        $config = $this->getConfig($request->get('repo-slug'));
 
         $key = $this->generateKey(
             $config['app-id'],
@@ -40,7 +41,7 @@ class TravisController extends Controller
 
     public function deleteKey($key, Request $request)
     {
-        $config = $this->getConfig($request->get('repo-slug'));
+        $config = config('repository-config');
 
         $algolia = new Client($config['app-id'], $config['super-admin-key']);
 
@@ -49,26 +50,6 @@ class TravisController extends Controller
         return response('', 204);
     }
 
-    private function getConfig($repo)
-    {
-        // We use array_dot to easily deep merge configuration
-        $repoConfig = array_dot((array) config('repositories.'.$repo));
-        $defaultConfig = array_dot(config('repositories.default'));
-
-        $repoConfig += $defaultConfig;
-
-        if (env('APP_DEBUG')) {
-            $repoConfig['key-params.validity'] = 180;
-        }
-
-        $config = [];
-        // Then we reverse the array_dot
-        foreach ($repoConfig as $key => $value) {
-            array_set($config, $key, $value);
-        }
-
-        return $config;
-    }
     private function generateKey($appId, $apiKey, $ip, $keyParams)
     {
         $algolia = new Client($appId, $apiKey);

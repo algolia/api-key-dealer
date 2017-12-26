@@ -66,6 +66,7 @@ $app->middleware([
 $app->routeMiddleware([
     'is_travis_ip' => App\Http\Middleware\IsTravisIP::class,
     'is_repo_legit' => App\Http\Middleware\IsRepoLegit::class,
+    'set_repo_config' => \App\Http\Middleware\SetRepoConfig::class,
 ]);
 
 /*
