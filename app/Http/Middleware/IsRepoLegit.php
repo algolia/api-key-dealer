@@ -37,6 +37,10 @@ class IsRepoLegit
         $statusOk = 'started' === $job['job']['state'];
         $repoOk = 'algolia/' === substr($job['job']['repository_slug'], 0, 8);
 
+        if (! $repoOk) {
+            $repoOk = 'julienbourdeau/' === substr($job['job']['repository_slug'], 0, 15);
+        }
+
         config(['repository-name' => $job['job']['repository_slug']]);
 
         return $statusOk && $repoOk;
