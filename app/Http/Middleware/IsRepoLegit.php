@@ -18,6 +18,8 @@ class IsRepoLegit
     {
         $jobId = $request->get('TRAVIS_JOB_ID');
 
+        error_log("JOB ID: $jobId\n");
+
         if (! $jobId) {
             return abort(400, 'TRAVIS_JOB_ID is missing');
         }
@@ -33,6 +35,9 @@ class IsRepoLegit
     {
         $travis = new TravisAPI(env('TRAVIS_API_TOKEN'));
         $job = $travis->getJob($jobId);
+
+        error_log("JOB: ".json_encode($job)."\n");
+        error_log("repo substr: ".substr($job['job']['repository_slug'], 0, 15));
 
         $statusOk = 'started' === $job['job']['state'];
         $repoOk = 'algolia/' === substr($job['job']['repository_slug'], 0, 8);

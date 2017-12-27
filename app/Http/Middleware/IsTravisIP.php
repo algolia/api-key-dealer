@@ -15,6 +15,8 @@ class IsTravisIP
      */
     public function handle($request, Closure $next)
     {
+        error_log("IP: ".$request->getClientIp()."\n");
+
         if (! $this->isFromTravis($request->getClientIp())) {
             return abort(400, "Sorry the IP ".$request->getClientIp()." isn't in the allowed range" );
         }
