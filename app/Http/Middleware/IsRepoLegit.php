@@ -26,7 +26,7 @@ class IsRepoLegit
             return $next($request);
         }
 
-        return abort(400);
+        return abort(400, "The TRAVIS_JOB_ID $jobId isn't currently running");
     }
 
     private function isTravisJobLegit($jobId)
