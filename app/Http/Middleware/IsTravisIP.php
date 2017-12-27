@@ -26,6 +26,11 @@ class IsTravisIP
 
     private function isFromTravis($ip)
     {
+        // Container-based (travis-ci.org)
+        if (in_array($ip, ["52. 3.55.28", "34.233.56.198", "52.54.31.11", "52.45.185.117"])) {
+            return true;
+        }
+
         $travisIps = [
             // Sudo-enabled Linux
             '8.34.208.0/20', '8.35.192.0/21', '8.35.200.0/23',
@@ -53,6 +58,11 @@ class IsTravisIP
             if ($this->inRange($ip, $range)) {
                 return true;
             }
+        }
+
+        // Container-based (travis-ci.com)
+        if (in_array($ip, ["34.234.4.53", "52.45.220.64", "54.208.31.17", "52.54.40.118"])) {
+            return true;
         }
 
         return false;
