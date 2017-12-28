@@ -25,7 +25,7 @@ return [
         'super-admin-key' => env('PHP_ADMIN_KEY'),
         'key-params' => [
             'validity' => 3600,
-            'indexes' => ['sf_bundle_*'],
+            'indexes' => ['TRAVIS_sf_*'],
         ],
     ],
 ];
