@@ -3,3 +3,5 @@
 Homestead.json
 Homestead.yaml
 .env
+/client/buy
+client/.env.travis
