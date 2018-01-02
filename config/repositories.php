@@ -4,6 +4,10 @@ return [
     'default' =>[
         'app-id' => 'test', // Yes it's a valid app ID
         'super-admin-key' => env('DEFAULT_ADMIN_KEY'),
+        'mcm' => [
+            'app-id' => '5QZOBPRNH0',
+            'super-admin-key' => env('MCM_ADMIN_KEY'),
+        ],
         'key-params' => [
             'acl' => [
                 'search',

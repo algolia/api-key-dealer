@@ -17,6 +17,11 @@ type Payload struct {
 type Credientials struct {
   AppId   string `json:"app-id"`
   ApiKey  string `json:"api-key"`
+  ApiSearchKey  string `json:"api-search-key"`
+  Mcm          struct {
+  AppId  string `json:"app-id"`
+  ApiKey string `json:"api-key"`
+  } `json:"mcm"`
   Comment string `json:"comment"`
 }
 
@@ -49,9 +54,12 @@ func start() {
   }
 
   env := fmt.Sprintf(
-    "ALGOLIA_APP_ID=%s\nALGOLIA_API_KEY=%s",
+    "ALGOLIA_APP_ID=%s\nALGOLIA_API_KEY=%s\nALGOLIA_SEARCH_API_KEY=%s\nALGOLIA_APP_ID_MCM=%s\nALGOLIA_API_KEY_MCM=%s\n",
     credentials.AppId,
     credentials.ApiKey,
+    credentials.ApiSearchKey,
+    credentials.Mcm.AppId,
+    credentials.Mcm.ApiKey,
   )
 
   f.WriteString(env)
