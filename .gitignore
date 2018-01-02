@@ -1,7 +1,7 @@
 /vendor
-/.idea
+.idea
 Homestead.json
 Homestead.yaml
 .env
-/client/buy
-client/.env.travis
+buy
+.env.travis
