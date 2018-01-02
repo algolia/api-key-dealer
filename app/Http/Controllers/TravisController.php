@@ -32,10 +32,19 @@ class TravisController extends Controller
             $config['key-params']
         );
 
+        $searchParams = ['acl' => ['search']] + $config['key-params'];
+        $searchKey = $this->generateKey(
+            $config['app-id'],
+            $config['super-admin-key'],
+            $ip,
+            $searchParams
+        );
+
         return response([
             'app-id' => $config['app-id'],
             'api-key' => $key,
-            'comment' => 'This key will expire after '. $config['key-params']['validity'] / 60 .' minutes.',
+            'api-search-key' => $searchKey,
+            'comment' => 'The keys will expire after '. $config['key-params']['validity'] / 60 .' minutes.',
         ], 201);
     }
 
