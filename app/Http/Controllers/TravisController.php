@@ -40,10 +40,21 @@ class TravisController extends Controller
             $searchParams
         );
 
+        $mcmKey = $this->generateKey(
+            $config['mcm']['app-id'],
+            $config['mcm']['super-admin-key'],
+            $ip,
+            $config['key-params']
+        );
+
         return response([
             'app-id' => $config['app-id'],
             'api-key' => $key,
             'api-search-key' => $searchKey,
+            'mcm' => [
+                'app-id' => $config['mcm']['app-id'],
+                'api-key' => $mcmKey,
+            ],
             'comment' => 'The keys will expire after '. $config['key-params']['validity'] / 60 .' minutes.',
         ], 201);
     }
