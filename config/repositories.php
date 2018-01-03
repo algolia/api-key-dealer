@@ -45,4 +45,14 @@ return [
             'indexes' => ['TRAVIS_php_*'],
         ],
     ],
+    'algolia/algoliasearch-rails' => [
+        'app-id' => 'KTG3Y5H8FB',
+        'super-admin-key' => env('RAILS_ADMIN_KEY'),
+        'key-params' => [
+            'validity' => 3600,
+            'indexes' => ['TRAVIS_RAILS_*'],
+            'maxQueriesPerIPPerHour' => 10000,
+            'maxHitsPerQuery' => 300,
+        ],
+    ],
 ];
