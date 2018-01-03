@@ -26,47 +26,31 @@ type Credientials struct {
 }
 
 func main() {
-  if (len(os.Args) != 2) {
+  if (len(os.Args) == 1) {
     usage()
-    os.Exit(1)
   }
 
   command := os.Args[1]
 
-  if "start" == command {
-    start()
-  } else if "finish" == command {
-    finish()
+  if "export" == command {
+    export()
   } else {
     usage()
   }
 
 }
 
-func start() {
+func export() {
   credentials := getApiKey()
 
-  printComment(credentials.Comment)
-
-  f, err := os.Create("./.env.travis")
-  if err != nil {
-      panic(err)
-  }
-
-  env := fmt.Sprintf(
-    "ALGOLIA_APP_ID=%s\nALGOLIA_API_KEY=%s\nALGOLIA_SEARCH_API_KEY=%s\nALGOLIA_APP_ID_MCM=%s\nALGOLIA_API_KEY_MCM=%s\n",
+  fmt.Printf(
+    "export ALGOLIA_APP_ID=%s ALGOLIA_API_KEY=%s ALGOLIA_SEARCH_API_KEY=%s ALGOLIA_APP_ID_MCM=%s ALGOLIA_API_KEY_MCM=%s ",
     credentials.AppId,
     credentials.ApiKey,
     credentials.ApiSearchKey,
     credentials.Mcm.AppId,
     credentials.Mcm.ApiKey,
   )
-
-  f.WriteString(env)
-}
-
-func printComment(comment string) {
-  fmt.Println(comment)
 }
 
 func getApiKey() Credientials {
@@ -109,15 +93,10 @@ func getApiKey() Credientials {
   return credentials
 }
 
-func finish() {
-  printComment("TODO")
-}
-
 func usage() {
   fmt.Printf("Usage: %s [command]\n", os.Args[0])
   fmt.Println("Available commands")
-  fmt.Println("\tstart\t\tGet Algolia credentials")
-  fmt.Println("\tfinish\t\tDelete Algolia credentials")
+  fmt.Println("\texport\t\tExport Algolia credentials to env variables")
   fmt.Println("\thelp\t\tPrint this message")
   fmt.Println()
 }
