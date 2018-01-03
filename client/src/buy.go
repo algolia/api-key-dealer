@@ -44,7 +44,8 @@ func export() {
   credentials := getApiKey()
 
   fmt.Printf(
-    "export ALGOLIA_APP_ID=%s ALGOLIA_API_KEY=%s ALGOLIA_SEARCH_API_KEY=%s ALGOLIA_APP_ID_MCM=%s ALGOLIA_API_KEY_MCM=%s ",
+    "export ALGOLIA_APP_ID=%s ALGOLIA_APPLICATION_ID=%s ALGOLIA_API_KEY=%s ALGOLIA_SEARCH_API_KEY=%s ALGOLIA_APP_ID_MCM=%s ALGOLIA_API_KEY_MCM=%s ",
+    credentials.AppId,
     credentials.AppId,
     credentials.ApiKey,
     credentials.ApiSearchKey,
