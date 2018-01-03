@@ -10,13 +10,12 @@ return [
         ],
         'key-params' => [
             'acl' => [
-                'search',
-                'addObject',
-                'listIndexes',
-                'settings',
-                'deleteObject',
-                'deleteIndex',
-                'editSettings'
+                'search', 'browse',
+                'addObject', 'deleteObject',
+                'listIndexes', 'deleteIndex',
+                'settings', 'editSettings',
+                'analytics',
+                'logs',
             ],
             'validity' => 5400,
             'maxQueriesPerIPPerHour' => 1000,
@@ -28,6 +27,12 @@ return [
         'app-id' => 'I2UB5B7IZB',
         'super-admin-key' => env('PHP_ADMIN_KEY'),
         'key-params' => [
+            'acl' => [
+                'search',
+                'addObject', 'deleteObject',
+                'listIndexes', 'deleteIndex',
+                'settings', 'editSettings',
+            ],
             'validity' => 3600,
             'indexes' => ['TRAVIS_sf_*'],
         ],
