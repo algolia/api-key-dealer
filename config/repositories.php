@@ -32,4 +32,12 @@ return [
             'indexes' => ['TRAVIS_sf_*'],
         ],
     ],
+    'algolia/algoliasearch-client-php' => [
+        'app-id' => 'I2UB5B7IZB',
+        'super-admin-key' => env('PHP_ADMIN_KEY'),
+        'key-params' => [
+            'validity' => 3600,
+            'indexes' => ['TRAVIS_php_*'],
+        ],
+    ],
 ];
