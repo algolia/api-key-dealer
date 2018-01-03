@@ -61,12 +61,12 @@ $app->singleton(
 
 $app->middleware([
     \Fideloper\Proxy\TrustProxies::class,
+    \App\Http\Middleware\SetSource::class,
+    \App\Http\Middleware\SetRepoConfig::class,
 ]);
 
 $app->routeMiddleware([
-    'is_travis_ip' => App\Http\Middleware\IsTravisIP::class,
-    'is_repo_legit' => App\Http\Middleware\IsRepoLegit::class,
-    'set_repo_config' => \App\Http\Middleware\SetRepoConfig::class,
+    //
 ]);
 
 /*

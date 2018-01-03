@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class IsTravisIP
+class SetSource
 {
     /**
      * Handle an incoming request.
@@ -15,16 +15,54 @@ class IsTravisIP
      */
     public function handle($request, Closure $next)
     {
-        error_log("IP: ".$request->getClientIp()."\n");
+        $ip = $request->getClientIp();
 
-        if (! $this->isFromTravis($request->getClientIp())) {
-            return abort(400, "Sorry the IP ".$request->getClientIp()." isn't in the allowed range" );
+        $ipAuthorized = $this->isLocal($ip)
+            || $this->isFromAlgolia($ip)
+            || $this->isFromTravis($ip);
+
+        if ($ipAuthorized) {
+            return $next($request);
         }
-        
-        return $next($request);
+
+        return abort(400, "Sorry the IP ".$request->getClientIp()." isn't in the allowed range" );
+    }
+
+    private function isLocal($ip)
+    {
+        if (in_array($ip, ['127.0.0.1', '::1'])) {
+            config(['source' => 'local']);
+            return true;
+        }
+
+        return false;
+    }
+
+    private function isFromAlgolia($ip)
+    {
+        $isAlgolia = in_array($ip, [
+            '84.14.205.82', // Paris Office
+            '162.217.74.98', // SF Office
+        ]);
+
+        if ($isAlgolia) {
+            config(['source' => 'algolia']);
+        }
+
+        return $isAlgolia;
     }
 
     private function isFromTravis($ip)
+    {
+        if ($this->isTravisIpAddress($ip)) {
+            config(['source' => 'travis']);
+            return true;
+        }
+
+        return false;
+    }
+
+    private function isTravisIpAddress($ip)
     {
         // Container-based (travis-ci.org)
         if (in_array($ip, ["52. 3.55.28", "34.233.56.198", "52.54.31.11", "52.45.185.117"])) {
