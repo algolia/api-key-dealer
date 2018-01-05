@@ -7,19 +7,6 @@ use Illuminate\Http\Request;
 
 class TravisController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     */
-    public function __construct()
-    {
-        if (! env('APP_DEBUG')) {
-            $this->middleware('is_travis_ip');
-            $this->middleware('is_repo_legit');
-        }
-
-        $this->middleware('set_repo_config');
-    }
-
     public function createNewKey(Request $request)
     {
         $config = config('repository-config');
@@ -75,8 +62,10 @@ class TravisController extends Controller
         $algolia = new Client($appId, $apiKey);
         $response = $algolia->addApiKey($keyParams);
 
-        $key = Client::generateSecuredApiKey($response['key'], ['restrictSources' => $ip]);
-
-        return $key;
+        if ('travis' == config('source')) {
+            return Client::generateSecuredApiKey($response['key'], ['restrictSources' => $ip]);
+        } else {
+            return $response['key'];
+        }
     }
 }
