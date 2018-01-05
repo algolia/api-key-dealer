@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use AlgoliaSearch\Client;
+use App\Algolia\Client;
 use Illuminate\Http\Request;
 
 class TravisController extends Controller
@@ -60,7 +60,8 @@ class TravisController extends Controller
     private function generateKey($appId, $apiKey, $ip, $keyParams)
     {
         $algolia = new Client($appId, $apiKey);
-        $response = $algolia->addApiKey($keyParams);
+
+        $response = $algolia->newApiKey($keyParams);
 
         if ('travis' == config('source')) {
             return Client::generateSecuredApiKey($response['key'], ['restrictSources' => $ip]);
