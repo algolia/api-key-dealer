@@ -60,7 +60,7 @@ func getApiKey() Credientials {
 
   req, err := http.NewRequest(
     "POST",
-    "http://api-key-dealer.herokuapp.com/1/travis/keys/new",
+    "https://keys.algolia.engineering/1/travis/keys/new",
     strings.NewReader(string(jsonPayload)),
   )
 
