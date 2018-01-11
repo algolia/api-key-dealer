@@ -68,4 +68,10 @@ return [
             'indexes' => ['TRAVIS_M2_*'],
         ],
     ],
+    "algolia/algoliasearch-client-javascript" => [
+        'key-params' => [
+            'indexes' => ['TRAVIS_JS_*'],
+        ],
+    ]
+
 ];
