@@ -17,12 +17,3 @@ POST /1/travis/keys/new
 ```
 
 The job ID can be found in the env variable `TRAVIS_JOB_ID` (it's set automatically).
-
-### Delete a key
-
-```
-POST /1/travis/keys/{key_to_delete}/delete
-{
-    "TRAVIS_JOB_ID": value 
-}
-```

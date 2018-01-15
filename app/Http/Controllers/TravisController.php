@@ -46,17 +46,6 @@ class TravisController extends Controller
         ], 201);
     }
 
-    public function deleteKey($key, Request $request)
-    {
-        $config = config('repository-config');
-
-        $algolia = new Client($config['app-id'], $config['super-admin-key']);
-
-        $algolia->deleteApiKey($key);
-
-        return response('', 204);
-    }
-
     private function generateKey($appId, $apiKey, $ip, $keyParams)
     {
         $algolia = new Client($appId, $apiKey);

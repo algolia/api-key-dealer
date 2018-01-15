@@ -13,6 +13,7 @@ class Client extends AlgoliaClient
      *
      * @param array $keyParams
      * @return array The newly generated key (original response from API)
+     * @throws \AlgoliaSearch\AlgoliaException
      */
     public function newApiKey(array $keyParams): array
     {
