@@ -20,13 +20,13 @@ class Client extends AlgoliaClient
         $keyResponse = $this->addApiKey($keyParams);
         $res = null;
 
-        do {
+//        do {
             try {
                 $res = $this->getApiKey($keyResponse['key']);
             } catch (\Exception $e) {
                 usleep(100);
             }
-        } while (! is_array($res));
+//        } while (! is_array($res));
 
 
         return $keyResponse;
