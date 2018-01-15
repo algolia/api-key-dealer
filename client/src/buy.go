@@ -14,7 +14,7 @@ type Payload struct {
 	TRAVIS_JOB_ID string
 }
 
-type Credientials struct {
+type Credentials struct {
 	AppId        string `json:"app-id"`
 	ApiKey       string `json:"api-key"`
 	ApiSearchKey string `json:"api-search-key"`
@@ -62,7 +62,7 @@ func export() {
 	fmt.Print(cmd)
 }
 
-func getApiKey() Credientials {
+func getApiKey() Credentials {
 	p := Payload{string(os.Getenv("TRAVIS_JOB_ID"))}
 	jsonPayload, err := json.Marshal(p)
 
@@ -93,7 +93,7 @@ func getApiKey() Credientials {
 		log.Fatal(err)
 	}
 
-	credentials := Credientials{}
+	credentials := Credentials{}
 	err = json.Unmarshal(body, &credentials)
 	if err != nil {
 		log.Fatal("Invalid json response")
@@ -108,4 +108,6 @@ func usage() {
 	fmt.Println("\texport\t\tExport Algolia credentials to env variables")
 	fmt.Println("\thelp\t\tPrint this message")
 	fmt.Println()
+
+	os.Exit(0)
 }
