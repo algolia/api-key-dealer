@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class TravisController extends Controller
 {
-    public function createNewKey(Request $request)
+    public function createCredentials(Request $request)
     {
         $config = config('repository-config');
         $ip = $request->getClientIp();
@@ -27,23 +27,21 @@ class TravisController extends Controller
             $searchParams
         );
 
-        $mcmKey = $this->generateKey(
-            $config['mcm']['app-id'],
-            $config['mcm']['super-admin-key'],
-            $ip,
-            $config['key-params']
-        );
-
-        return response([
+        $response = [
             'app-id' => $config['app-id'],
             'api-key' => $key,
             'api-search-key' => $searchKey,
-            'mcm' => [
-                'app-id' => $config['mcm']['app-id'],
-                'api-key' => $mcmKey,
-            ],
-            'comment' => 'The keys will expire after '. $config['key-params']['validity'] / 60 .' minutes.',
-        ], 201);
+        ];
+
+        if (in_array('mcm', $config['want'])) {
+            $response['mcm'] = $this->getMcmResponse($config, $ip);
+        }
+
+        // Add comment
+        $validity = $config['key-params']['validity'] / 60;
+        $response['comment'] = "The keys will expire after $validity minutes.";
+
+        return response($response, 201);
     }
 
     private function generateKey($appId, $apiKey, $ip, $keyParams)
@@ -57,5 +55,20 @@ class TravisController extends Controller
         } else {
             return $response['key'];
         }
+    }
+
+    private function getMcmResponse($config, $ip)
+    {
+        $mcmKey = $this->generateKey(
+            $config['mcm']['app-id'],
+            $config['mcm']['super-admin-key'],
+            $ip,
+            $config['key-params']
+        );
+
+        return [
+            'app-id' => $config['mcm']['app-id'],
+            'api-key' => $mcmKey,
+        ];
     }
 }

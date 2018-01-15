@@ -2,6 +2,7 @@
 
 return [
     'default' =>[
+        'want' => ['std', 'mcm'], // 'std', 'mcm'
         'app-id' => 'test', // Yes it's a valid app ID
         'super-admin-key' => env('DEFAULT_ADMIN_KEY'),
         'mcm' => [
