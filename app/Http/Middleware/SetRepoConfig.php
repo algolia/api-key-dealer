@@ -39,19 +39,26 @@ class SetRepoConfig
     private function getConfig($repoName)
     {
         // We use array_dot to easily deep merge configuration
-        $repoConfig = array_dot((array) config('repositories.'.$repoName));
-        $defaultConfig = array_dot(config('repositories.default'));
+        $repoConfig = (array) config('repositories.'.$repoName);
+        $defaultConfig = config('repositories.default');
 
-        $repoConfig += $defaultConfig;
+        $mergedConfig = array_dot($repoConfig) + array_dot($defaultConfig);
 
-//        if (env('APP_DEBUG')) {
-//            $repoConfig['key-params.validity'] = 180;
-//        }
+        if (env('APP_DEBUG')) {
+            $mergedConfig['key-params.validity'] = 180;
+        }
 
         $config = [];
         // Then we reverse the array_dot
-        foreach ($repoConfig as $key => $value) {
+        foreach ($mergedConfig as $key => $value) {
             array_set($config, $key, $value);
+        }
+
+        // Corner case if the config value is an array
+        foreach (['want', 'key-params.acl', 'key-params.indexes'] as $dotIndex) {
+            if (! is_null($value = array_get($repoConfig, $dotIndex))) {
+                array_set($config, $dotIndex, $value);
+            }
         }
 
         return $config;

@@ -13,6 +13,7 @@ class Client extends AlgoliaClient
      *
      * @param array $keyParams
      * @return array The newly generated key (original response from API)
+     * @throws \AlgoliaSearch\AlgoliaException
      */
     public function newApiKey(array $keyParams): array
     {
@@ -23,7 +24,7 @@ class Client extends AlgoliaClient
             try {
                 $res = $this->getApiKey($keyResponse['key']);
             } catch (\Exception $e) {
-                // Not ready yet
+                usleep(100);
             }
         } while (! is_array($res));
 
