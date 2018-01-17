@@ -72,6 +72,8 @@ func export() {
 		)
 	}
 
+	cmd += " && echo " + getFormattedComment(credentials.Comment)
+
 	fmt.Print(cmd)
 }
 
@@ -115,6 +117,10 @@ func getApiKey() Credentials {
 	}
 
 	return credentials
+}
+
+func getFormattedComment(comment string) string {
+	return "' ~ " + comment + " ~ '"
 }
 
 func usage() {
