@@ -77,6 +77,10 @@ return [
         'key-params' => [
             'indexes' => ['TRAVIS_JS_*'],
         ],
-    ]
-
+    ],
+    "algolia/algoliasearch-client-python" => [
+        'want' => ['std', 'mcm'],
+        'app-id' => 'RDOT4PBY36',
+        'super-admin-key' => env('PYTHON_ADMIN_KEY'),
+    ],
 ];
