@@ -80,6 +80,7 @@ $app->routeMiddleware([
 |
 */
 
+$app->register(\Sentry\SentryLaravel\SentryLumenServiceProvider::class);
 $app->register(\Fideloper\Proxy\TrustedProxyServiceProvider::class);
 $app->register(App\Providers\AppServiceProvider::class);
 // $app->register(App\Providers\AuthServiceProvider::class);
