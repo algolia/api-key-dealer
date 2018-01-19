@@ -58,16 +58,16 @@ return [
         ],
     ],
     'algolia/algoliasearch-magento' => [
-        'app-id' => 'testingITL38KLXHC',
-        'super-admin-key' => env('MAGENTO_ADMIN_KEY'),
+        'app-id' => 'I2UB5B7IZB',
+        'super-admin-key' => env('PHP_ADMIN_KEY'),
         'key-params' => [
             'maxHitsPerQuery' => 300,
             'indexes' => ['TRAVIS_M1_*'],
         ],
     ],
     'algolia/algoliasearch-magento-2' => [
-        'app-id' => 'testingITL38KLXHC',
-        'super-admin-key' => env('MAGENTO_ADMIN_KEY'),
+        'app-id' => 'I2UB5B7IZB',
+        'super-admin-key' => env('PHP_ADMIN_KEY'),
         'key-params' => [
             'maxHitsPerQuery' => 300,
             'indexes' => ['TRAVIS_M2_*'],
