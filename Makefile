@@ -1,5 +1,6 @@
-src = client/src/buy.go
+src := client/src/buy.go
 
+.PHONY: all
 all: public/clients/algolia-keys public/clients/algolia-keys-mac
 
 public/clients/algolia-keys: $(src)
