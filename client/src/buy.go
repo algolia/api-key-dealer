@@ -13,6 +13,7 @@ import (
 
 type Payload struct {
 	TRAVIS_JOB_ID string
+	APP_ENV       string
 }
 
 type Credentials struct {
@@ -72,16 +73,27 @@ func export() {
 		)
 	}
 
+	cmd += " && echo " + getFormattedComment(credentials.Comment)
+
 	fmt.Print(cmd)
 }
 
 func getApiKey() Credentials {
-	p := Payload{string(os.Getenv("TRAVIS_JOB_ID"))}
+	p := Payload{
+		TRAVIS_JOB_ID: string(os.Getenv("TRAVIS_JOB_ID")),
+		APP_ENV:       string(os.Getenv("APP_ENV")),
+	}
 	jsonPayload, err := json.Marshal(p)
+
+	url := "https://keys.algolia.engineering"
+
+	if "dev" == os.Getenv("APP_ENV") {
+		url = "http://localhost:8080"
+	}
 
 	req, err := http.NewRequest(
 		"POST",
-		"https://keys.algolia.engineering/1/travis/keys/new",
+		url+"/1/travis/keys/new",
 		strings.NewReader(string(jsonPayload)),
 	)
 
@@ -115,6 +127,10 @@ func getApiKey() Credentials {
 	}
 
 	return credentials
+}
+
+func getFormattedComment(comment string) string {
+	return "' ~ " + comment + " ~ '"
 }
 
 func usage() {
