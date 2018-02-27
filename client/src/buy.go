@@ -130,7 +130,8 @@ func getApiKey() Credentials {
 }
 
 func getFormattedComment(comment string) string {
-	return "' ~ " + comment + " ~ '"
+	escaped := strings.Replace(comment, `'`, `'"'"'`, -1)
+	return "' ~ " + escaped + " ~ '"
 }
 
 func usage() {
