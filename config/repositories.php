@@ -42,6 +42,7 @@ return [
         ],
     ],
     'algolia/algoliasearch-client-php' => [
+        'want' => ['std', 'places', 'mcm'],
         'app-id' => 'I2UB5B7IZB',
         'super-admin-key' => env('PHP_ADMIN_KEY'),
         'key-params' => [
