@@ -25,7 +25,7 @@ class SetSource
             return $next($request);
         }
 
-        return abort(400, "Sorry the IP ".$request->getClientIp()." isn't in the allowed range" );
+        return response("Sorry the IP ".$request->getClientIp()." isn't in the allowed range", 400);
     }
 
     private function isLocal($ip)
