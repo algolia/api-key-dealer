@@ -54,11 +54,11 @@ class TravisController extends Controller
 
         $response = $algolia->newApiKey($keyParams);
 
-        if ('travis' == config('source')) {
-            return Client::generateSecuredApiKey($response['key'], ['restrictSources' => $ip]);
-        } else {
+//        if ('travis' == config('source')) {
+//            return Client::generateSecuredApiKey($response['key'], ['restrictSources' => $ip]);
+//        } else {
             return $response['key'];
-        }
+//        }
     }
 
     private function getStdResponse($config, $ip)
