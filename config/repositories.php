@@ -58,6 +58,15 @@ return [
             'indexes' => ['TRAVIS_RAILS_*'],
         ],
     ],
+    'algolia/algoliasearch-client-ruby' => [
+        'app-id' => 'N415NQ98FV',
+        'super-admin-key' => env('RUBY_ADMIN_KEY'),
+        'key-params' => [
+            'maxQueriesPerIPPerHour' => 10000,
+            'maxHitsPerQuery' => 300,
+            'indexes' => ['TRAVIS_RUBY_*'],
+        ],
+    ],
     'algolia/algoliasearch-magento' => [
         'app-id' => 'I2UB5B7IZB',
         'super-admin-key' => env('PHP_ADMIN_KEY'),
