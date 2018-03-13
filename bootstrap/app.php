@@ -61,6 +61,7 @@ $app->singleton(
 
 $app->middleware([
     \Fideloper\Proxy\TrustProxies::class,
+    \App\Http\Middleware\SetRequestId::class,
     \App\Http\Middleware\SetSource::class,
     \App\Http\Middleware\SetRepoConfig::class,
 ]);

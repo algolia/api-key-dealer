@@ -32,7 +32,10 @@ class TravisController extends Controller
 
         Log::channel('slack')->notice(
             'Generated access for '.config('repository-name'),
-            $response
+            array_merge(
+                ['Request ID' => config('request_id')],
+                $response
+            )
         );
 
         return response($response, 201);

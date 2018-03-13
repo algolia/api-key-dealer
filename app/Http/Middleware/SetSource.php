@@ -27,6 +27,7 @@ class SetSource
         }
 
         Log::channel('slack')->debug('Incoming request from unauthorized source', [
+            'Request ID' => config('request_id'),
             'IP address' => $ip,
             'Is it a crawler?' => "http://$ip/",
         ]);
@@ -40,6 +41,7 @@ class SetSource
             config(['source' => 'local']);
 
             Log::channel('slack')->debug('Incoming request from local source', [
+                'Request ID' => config('request_id'),
                 'From' => $ip
             ]);
 
@@ -61,6 +63,7 @@ class SetSource
             config(['source' => 'algolia']);
 
             Log::channel('slack')->debug('Incoming request from authorized source', [
+                'Request ID' => config('request_id'),
                 'From' => $algoliaIps[$ip]
             ]);
         }
@@ -74,6 +77,7 @@ class SetSource
             config(['source' => 'travis']);
 
             Log::channel('slack')->debug('Incoming request from authorized source', [
+                'Request ID' => config('request_id'),
                 'From' => $ip
             ]);
 
