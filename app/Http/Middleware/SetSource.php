@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Log;
 
 class SetSource
 {
@@ -25,6 +26,11 @@ class SetSource
             return $next($request);
         }
 
+        Log::channel('slack')->debug('Incoming request from unauthorized source', [
+            'IP address' => $ip,
+            'Is it a crawler?' => "http://$ip/",
+        ]);
+
         return response("Sorry the IP ".$request->getClientIp()." isn't in the allowed range", 400);
     }
 
@@ -32,21 +38,31 @@ class SetSource
     {
         if (in_array($ip, ['127.0.0.1', '::1'])) {
             config(['source' => 'local']);
+
+            Log::channel('slack')->debug('Incoming request from local source', [
+                'From' => $ip
+            ]);
+
             return true;
         }
-
         return false;
     }
 
     private function isFromAlgolia($ip)
     {
-        $isAlgolia = in_array($ip, [
-            '84.14.205.82', // Paris Office
-            '162.217.74.98', // SF Office
-        ]);
+        $algoliaIps = [
+            '84.14.205.82' => 'Paris office',
+            '162.217.74.98' => 'SF office',
+        ];
+
+        $isAlgolia = in_array($ip, array_keys($algoliaIps));
 
         if ($isAlgolia) {
             config(['source' => 'algolia']);
+
+            Log::channel('slack')->debug('Incoming request from authorized source', [
+                'From' => $algoliaIps[$ip]
+            ]);
         }
 
         return $isAlgolia;
@@ -56,6 +72,11 @@ class SetSource
     {
         if ($this->isTravisIpAddress($ip)) {
             config(['source' => 'travis']);
+
+            Log::channel('slack')->debug('Incoming request from authorized source', [
+                'From' => $ip
+            ]);
+
             return true;
         }
 
