@@ -7,7 +7,6 @@ use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Symfony\Component\Debug\Exception\FatalErrorException;
 use Symfony\Component\Debug\Exception\FlattenException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
@@ -68,8 +67,6 @@ class Handler extends ExceptionHandler
             $e = new HttpException(403, $e->getMessage());
         } elseif ($e instanceof ValidationException && $e->getResponse()) {
             return $e->getResponse();
-        } elseif ($e instanceof FatalErrorException) {
-            return new Response($e->getTrace());
         }
 
         $content  = [
