@@ -30,13 +30,7 @@ class TravisController extends Controller
         $validity = $config['key-params']['validity'] / 60;
         $response['comment'] = "The keys will expire after $validity minutes.";
 
-        Log::channel('slack')->notice(
-            'Generated access for '.config('repository-name'),
-            array_merge(
-                ['Request ID' => config('request_id')],
-                $response
-            )
-        );
+        $this->log($response);
 
         return response($response, 201);
     }
@@ -127,5 +121,19 @@ class TravisController extends Controller
     private function isPlacesApp($appId)
     {
         return 'pl' == strtolower(substr($appId, 0, 2));
+    }
+
+    private function log($response)
+    {
+        $context = array_merge(
+            ['Request ID' => config('request_id')],
+            $response
+        );
+        $context['api-key'] = substr($context['api-key'], 0, 8).'...';
+
+        Log::channel('slack')->notice(
+            'Generated access for '.config('repository-name'),
+            $context
+        );
     }
 }
