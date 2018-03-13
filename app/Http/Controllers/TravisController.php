@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Algolia\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class TravisController extends Controller
 {
@@ -28,6 +29,11 @@ class TravisController extends Controller
         // Add comment
         $validity = $config['key-params']['validity'] / 60;
         $response['comment'] = "The keys will expire after $validity minutes.";
+
+        Log::channel('slack')->notice(
+            'Generated access for '.config('repository-name'),
+            $response
+        );
 
         return response($response, 201);
     }
