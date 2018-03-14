@@ -62,8 +62,8 @@ return [
         'app-id' => 'N415NQ98FV',
         'super-admin-key' => env('RUBY_ADMIN_KEY'),
         'key-params' => [
-            'maxQueriesPerIPPerHour' => 10000,
-            'maxHitsPerQuery' => 300,
+            'maxQueriesPerIPPerHour' => 50000,
+            'maxHitsPerQuery' => 3000,
             'indexes' => ['TRAVIS_RUBY_*'],
         ],
     ],
