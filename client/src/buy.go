@@ -17,6 +17,7 @@ type Payload struct {
 }
 
 type Credentials struct {
+	RequestId string `json:"request-id"`
 	AppId        string `json:"app-id"`
 	ApiKey       string `json:"api-key"`
 	ApiSearchKey string `json:"api-search-key"`
@@ -73,6 +74,7 @@ func export() {
 		)
 	}
 
+	cmd += " && echo " + getFormattedRequestId(credentials.RequestId)
 	cmd += " && echo " + getFormattedComment(credentials.Comment)
 
 	fmt.Print(cmd)
@@ -132,6 +134,11 @@ func getApiKey() Credentials {
 func getFormattedComment(comment string) string {
 	escaped := strings.Replace(comment, `'`, `'"'"'`, -1)
 	return "' ~ " + escaped + " ~ '"
+}
+
+func getFormattedRequestId(reqId string) string {
+	escaped := strings.Replace(reqId, `'`, `'"'"'`, -1)
+	return "' ~ Request ID: " + escaped + " ~ '"
 }
 
 func usage() {
