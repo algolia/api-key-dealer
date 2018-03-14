@@ -92,5 +92,8 @@ return [
         'want' => ['std', 'mcm'],
         'app-id' => 'RDOT4PBY36',
         'super-admin-key' => env('PYTHON_ADMIN_KEY'),
+        'key-params' => [
+            'indexes' => ['TRAVIS_PYTHON_*'],
+        ],
     ],
 ];
