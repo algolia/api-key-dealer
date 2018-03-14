@@ -26,9 +26,10 @@ class TravisController extends Controller
             $response['places'] = $this->getPlacesResponse($config, $ip);
         }
 
-        // Add comment
         $validity = $config['key-params']['validity'] / 60;
         $response['comment'] = "The keys will expire after $validity minutes.";
+
+        $response['request-id'] = config('request_id');
 
         $this->log($response);
 
@@ -123,12 +124,8 @@ class TravisController extends Controller
         return 'pl' == strtolower(substr($appId, 0, 2));
     }
 
-    private function log($response)
+    private function log($context)
     {
-        $context = array_merge(
-            ['Request ID' => config('request_id')],
-            $response
-        );
         $context['api-key'] = substr($context['api-key'], 0, 8).'...';
 
         Log::channel('slack')->notice(
