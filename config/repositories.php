@@ -94,6 +94,15 @@ return [
         'super-admin-key' => env('PYTHON_ADMIN_KEY'),
         'key-params' => [
             'indexes' => ['TRAVIS_PYTHON_*'],
+            'maxQueriesPerIPPerHour' => 10000,
+        ],
+    ],
+    "algolia/algoliasearch-client-python-async" => [
+        'want' => ['std'],
+        'app-id' => 'RDOT4PBY36',
+        'super-admin-key' => env('PYTHON_ADMIN_KEY'),
+        'key-params' => [
+            'indexes' => ['TRAVIS_PYTHONasync_*'],
         ],
     ],
 ];
