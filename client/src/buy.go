@@ -125,7 +125,9 @@ func getApiKey() Credentials {
 	credentials := Credentials{}
 	err = json.Unmarshal(body, &credentials)
 	if err != nil {
+		log.Println(string(body))
 		log.Fatal("Invalid json response")
+		os.Exit(101)
 	}
 
 	return credentials
