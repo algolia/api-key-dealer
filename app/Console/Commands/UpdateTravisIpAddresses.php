@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 
 class UpdateTravisIpAddresses extends Command
@@ -22,6 +23,8 @@ class UpdateTravisIpAddresses extends Command
 
         $content = "<?php".$this->getComment()."return ".var_export(['addresses' => $ips], true).";\n";
         file_put_contents('config/travis.php', $content);
+
+        $this->info("Travis IP addresses updated successfully.");
     }
 
     private function getComment()
