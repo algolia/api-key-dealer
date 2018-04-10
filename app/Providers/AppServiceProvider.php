@@ -14,5 +14,6 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->configure('repositories');
+        $this->app->configure('travis');
     }
 }
