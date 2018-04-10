@@ -89,7 +89,7 @@ class SetSource
 
     private function isTravisIpAddress($ip)
     {
-        $travisIps = config('travis-ips');
+        $travisIps = config('travis.addresses');
 
         if (in_array($ip, $travisIps)) {
             return true;
