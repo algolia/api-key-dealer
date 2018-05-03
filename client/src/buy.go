@@ -74,6 +74,8 @@ func export() {
 		)
 	}
 
+	cmd += " IS_COMMUNITY=true"
+
 	cmd += " && echo " + getFormattedRequestId(credentials.RequestId)
 	cmd += " && echo " + getFormattedComment(credentials.Comment)
 
