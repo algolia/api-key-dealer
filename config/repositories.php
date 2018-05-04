@@ -105,4 +105,13 @@ return [
             'indexes' => ['TRAVIS_PYTHONasync_*'],
         ],
     ],
+    "algolia/algoliasearch-client-java-2" => [
+        'want' => ['std'],
+        'app-id' => 'GLKI3BO0NS',
+        'super-admin-key' => env('JAVA2_ADMIN_KEY'),
+        'key-params' => [
+            'indexes' => [],
+            'maxQueriesPerIPPerHour' => 10000,
+        ],
+    ],
 ];
