@@ -21,10 +21,6 @@ type Credentials struct {
 	AppId        string `json:"app-id"`
 	ApiKey       string `json:"api-key"`
 	ApiSearchKey string `json:"api-search-key"`
-	Mcm          struct {
-		AppId  string `json:"app-id"`
-		ApiKey string `json:"api-key"`
-	} `json:"mcm"`
 	Places struct {
 		AppId  string `json:"app-id"`
 		ApiKey string `json:"api-key"`
@@ -57,14 +53,6 @@ func export() {
 		credentials.ApiKey,
 		credentials.ApiSearchKey,
 	)
-
-	if credentials.Mcm.ApiKey != "" {
-		cmd += fmt.Sprintf(
-			" ALGOLIA_APP_ID_MCM=%s ALGOLIA_API_KEY_MCM=%s",
-			credentials.Mcm.AppId,
-			credentials.Mcm.ApiKey,
-		)
-	}
 
 	if credentials.Places.ApiKey != "" {
 		cmd += fmt.Sprintf(

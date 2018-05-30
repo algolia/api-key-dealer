@@ -18,10 +18,6 @@ class TravisController extends Controller
             $response = array_merge($response, $this->getStdResponse($config, $ip));
         }
 
-        if (in_array('mcm', $config['want'])) {
-            $response['mcm'] = $this->getMcmResponse($config, $ip);
-        }
-
         if (in_array('places', $config['want'])) {
             $response['places'] = $this->getPlacesResponse($config, $ip);
         }
@@ -86,21 +82,6 @@ class TravisController extends Controller
             'app-id' => $config['app-id'],
             'api-key' => $key,
             'api-search-key' => $searchKey,
-        ];
-    }
-
-    private function getMcmResponse($config, $ip)
-    {
-        $mcmKey = $this->generateKey(
-            $config['mcm']['app-id'],
-            $config['mcm']['super-admin-key'],
-            $ip,
-            $config['key-params']
-        );
-
-        return [
-            'app-id' => $config['mcm']['app-id'],
-            'api-key' => $mcmKey,
         ];
     }
 
