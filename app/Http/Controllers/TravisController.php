@@ -34,23 +34,7 @@ class TravisController extends Controller
 
     private function generateKey($appId, $apiKey, $ip, $keyParams)
     {
-        $options = [];
-        $hosts = null;
-
-        // This can be removed when PHP client is updated with
-        // https://github.com/algolia/algoliasearch-client-php/pull/364
-        if ($this->isPlacesApp($appId)) {
-            $options[Client::PLACES_ENABLED] = true;
-            $hosts = array(
-                'places-1.algolianet.com',
-                'places-2.algolianet.com',
-                'places-3.algolianet.com',
-            );
-            shuffle($hosts);
-            array_unshift($hosts, 'places.algolia.net');
-        }
-
-        $algolia = new Client($appId, $apiKey, $hosts, $options);
+        $algolia = new Client($appId, $apiKey);
 
         $response = $algolia->newApiKey($keyParams);
 
@@ -98,11 +82,6 @@ class TravisController extends Controller
             'app-id' => $config['places']['app-id'],
             'api-key' => $placesKey,
         ];
-    }
-
-    private function isPlacesApp($appId)
-    {
-        return 'pl' == strtolower(substr($appId, 0, 2));
     }
 
     private function log($context)
