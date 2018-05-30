@@ -19,7 +19,7 @@ class SetSource
         $ip = $request->getClientIp();
 
         $ipAuthorized = $this->isLocal($ip)
-            || $this->isFromAlgolia($ip)
+            || $this->isFromAuthorizedIp($ip)
             || $this->isFromTravis($ip);
 
         if ($ipAuthorized) {
@@ -50,25 +50,29 @@ class SetSource
         return false;
     }
 
-    private function isFromAlgolia($ip)
+    /**
+     * You can set a list of address IP that will be authorized. This is helpful to
+     * call the API from work or from home.
+     *
+     * In`config/app.php` add an entry to `under authorized_ip_addresses`.
+     *
+     */
+    private function isFromAuthorizedIp($ip)
     {
-        $algoliaIps = [
-            '84.14.205.82' => 'Paris office',
-            '162.217.74.98' => 'SF office',
-        ];
+        $authorizedIps = config('custom.whitelist');
 
-        $isAlgolia = in_array($ip, array_keys($algoliaIps));
+        $isAuthorized = in_array($ip, array_keys($authorizedIps));
 
-        if ($isAlgolia) {
-            config(['source' => 'algolia']);
+        if ($isAuthorized) {
+            config(['source' => 'whitelist']);
 
             Log::channel('slack')->debug('Incoming request from authorized source', [
                 'Request ID' => config('request_id'),
-                'From' => $algoliaIps[$ip]
+                'From' => $authorizedIps[$ip]
             ]);
         }
 
-        return $isAlgolia;
+        return $isAuthorized;
     }
 
     private function isFromTravis($ip)

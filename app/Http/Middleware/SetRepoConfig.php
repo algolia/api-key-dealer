@@ -18,7 +18,7 @@ class SetRepoConfig
     {
         $source = config('source');
 
-        if (in_array($source, ['local', 'algolia'])) {
+        if (in_array($source, ['local', 'whitelist'])) {
             config([
                 'repository-name' => $request->get('repository-name')
             ]);
