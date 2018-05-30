@@ -7,7 +7,8 @@ use Closure;
 class SetRequestId
 {
     /**
-     * Handle an incoming request.
+     * The request ID is displayed by the client on travis, this allows you
+     * to find the log entry in slack when debugging.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
