@@ -28,7 +28,7 @@ class TravisController extends Controller
 
         $response = $this->algoliaKeys->forge($config, $ip);
 
-        $this->log($response);
+        $this->log(array_merge($response, ['IP Address' => $ip]));
 
         return response($response, 201);
     }
