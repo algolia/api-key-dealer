@@ -2,13 +2,9 @@
 
 return [
     'default' =>[
-        'want' => ['std'], // 'std', 'places'
-        'app-id' => 'test', // Yes it's a valid app ID
+        'app-id' => 'test', // Yes, it's a valid app ID
         'super-admin-key' => env('DEFAULT_ADMIN_KEY'),
-        'places' => [
-            'app-id' => 'plSYS0QH6R4R',
-            'super-admin-key' => env('PLACES_ADMIN_KEY'),
-        ],
+        'places' => false,
         'key-params' => [
             'acl' => [
                 'search', 'browse',
@@ -38,11 +34,14 @@ return [
         ],
     ],
     'algolia/algoliasearch-client-php' => [
-        'want' => ['std', 'places'],
         'app-id' => 'I2UB5B7IZB',
         'super-admin-key' => env('PHP_ADMIN_KEY'),
         'key-params' => [
             'indexes' => ['TRAVIS_php_*'],
+        ],
+        'places' => [
+            'app-id' => 'plSYS0QH6R4R',
+            'super-admin-key' => env('PLACES_ADMIN_KEY'),
         ],
     ],
     'algolia/algoliasearch-rails' => [
@@ -85,7 +84,6 @@ return [
         ],
     ],
     "algolia/algoliasearch-client-python" => [
-        'want' => ['std'],
         'app-id' => 'RDOT4PBY36',
         'super-admin-key' => env('PYTHON_ADMIN_KEY'),
         'key-params' => [
@@ -94,7 +92,6 @@ return [
         ],
     ],
     "algolia/algoliasearch-client-python-async" => [
-        'want' => ['std'],
         'app-id' => 'RDOT4PBY36',
         'super-admin-key' => env('PYTHON_ADMIN_KEY'),
         'key-params' => [
@@ -102,7 +99,6 @@ return [
         ],
     ],
     "algolia/algoliasearch-client-java-2" => [
-        'want' => ['std'],
         'app-id' => 'GLKI3BO0NS',
         'super-admin-key' => env('JAVA2_ADMIN_KEY'),
         'key-params' => [

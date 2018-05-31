@@ -17,4 +17,4 @@ if (env('APP_DEBUG')) {
     });
 }
 
-$router->post('/1/travis/keys/new', 'TravisController@createCredentials');
+$router->post('/1/travis/keys/new', 'TravisController@getAlgoliaCredentials');

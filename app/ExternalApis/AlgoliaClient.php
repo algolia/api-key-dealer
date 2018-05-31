@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Algolia;
+namespace App\ExternalApis;
 
-use AlgoliaSearch\Client as AlgoliaClient;
+use AlgoliaSearch\Client;
 
-class Client extends AlgoliaClient
+class AlgoliaClient extends Client
 {
     /**
      * This method will add a new key in your app
@@ -20,14 +20,11 @@ class Client extends AlgoliaClient
         $keyResponse = $this->addApiKey($keyParams);
         $res = null;
 
-//        do {
-            try {
-                $res = $this->getApiKey($keyResponse['key']);
-            } catch (\Exception $e) {
-                usleep(100);
-            }
-//        } while (! is_array($res));
-
+        try {
+            $res = $this->getApiKey($keyResponse['key']);
+        } catch (\Exception $e) {
+            usleep(100);
+        }
 
         return $keyResponse;
     }

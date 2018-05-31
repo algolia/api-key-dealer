@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\TravisAPI;
+use App\ExternalApis\TravisAPI;
 use Closure;
 
 class SetRepoConfig
