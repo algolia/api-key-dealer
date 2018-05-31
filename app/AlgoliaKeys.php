@@ -73,10 +73,6 @@ class AlgoliaKeys
 
         $key = $algolia->newApiKey($keyParams)['key'];
 
-        if ('travis' == config('source')) {
-            return AlgoliaClient::generateSecuredApiKey($key, ['restrictSources' => $ip]);
-        }
-
         return $key;
     }
 
