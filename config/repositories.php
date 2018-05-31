@@ -16,7 +16,7 @@ return [
             ],
             'validity' => 3600,
             'maxQueriesPerIPPerHour' => 2500,
-            'maxHitsPerQuery' => 101,
+            'maxHitsPerQuery' => 501,
             'indexes' => ['TRAVIS_*'],
         ],
     ],
