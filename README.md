@@ -1,6 +1,29 @@
 # Algolia API Key Dealer
 
-Get an almost-admin API key to run your tests on Travis.
+Running tests on travis can be a pain if you need credentials that shouldn't 
+be publicly shared. This projects aims to solve that.
+Read the details of why and how on Algolia's blog: 
+[https://blog.algolia.com/travis-encrypted-variables-external-contributions/](https://blog.algolia.com/travis-encrypted-variables-external-contributions/)
+
+**NOTE:** It's not exactly a framework and an app you'll be able to use right away,
+but it could be a good start if you want to build something similar.
+
+Feel free to [share your thoughts on this thread of the forum](https://discourse.algolia.com/t/dealing-with-encrypted-environment-variables-in-travis-for-algolia-credentials/5405).
+
+
+## Client
+
+Inside the client folder, you will find the go script used to call the API from your CI.
+Travis (in this case) will download the latest client binary and execute it to get temporary credentials.
+
+Example of `.travis.yml`
+```yaml
+before_script:
+  - wget https://keys.algolia.engineering/client/algolia-keys && chmod +x algolia-keys
+
+script:
+  - $(./algolia-keys export) && php vendor/bin/phpunit
+```
 
 
 ## Endpoints
@@ -25,10 +48,6 @@ The job ID can be found in the env variable `TRAVIS_JOB_ID` (it's set automatica
     "app-id": "I2UB5B7IZB",
     "api-key": "ee04e3...",
     "api-search-key": "0356747...",
-    "mcm": {
-        "app-id": "5QZOBPRNH0",
-        "api-key": "c6a7f4..."
-    },
     "places": {
         "app-id": "plSYS0QH6R4R",
         "api-key": "93d082..."
@@ -54,7 +73,7 @@ And test the client with:
 eval $(DEALER_HOST=localhost:8080./public/clients/algolia-keys-mac export)
 ```
 
-### Pass repository name
+### Force repository name
 
 If you want to test the configuration for a give repository, you can pass a `repository-name`
 parameter. It will only be taken into account if your call the API locally
