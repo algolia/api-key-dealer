@@ -79,8 +79,9 @@ func getApiKey() Credentials {
 
 	url := "https://keys.algolia.engineering"
 
-	if "dev" == os.Getenv("APP_ENV") {
-		url = "http://localhost:8080"
+	dealerHost := os.Getenv("DEALER_HOST")
+	if len(dealerHost) > 0 {
+		url = "http://" + dealerHost
 	}
 
 	req, err := http.NewRequest(

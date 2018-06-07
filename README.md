@@ -41,12 +41,17 @@ The job ID can be found in the env variable `TRAVIS_JOB_ID` (it's set automatica
 
 ### Call local API
 
-If you want to test it locally, set the APP_ENV environment variable to `dev`. 
-Note that the dealer needs to run on `localhost:8080`.
+If you want to test it locally, set the DEALER_HOST environment variable to the host
+of your local server.
 
-Example:
+Typically, you run the server with:
+
+```
+php -S localhost:8080 -t public
+```
+And test the client with:
 ```bash
-eval $(APP_ENV=dev ./public/clients/algolia-keys-mac export)
+eval $(DEALER_HOST=localhost:8080./public/clients/algolia-keys-mac export)
 ```
 
 ### Pass repository name
