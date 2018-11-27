@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Algolia\AlgoliaClient;
 use App\AlgoliaKeys;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class TravisController extends Controller

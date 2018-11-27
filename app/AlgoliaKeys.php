@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\ExternalApis\AlgoliaClient;
+use Algolia\AlgoliaSearch\SearchClient;
 
 class AlgoliaKeys
 {
@@ -69,11 +69,14 @@ class AlgoliaKeys
 
     private function generateKey($appId, $apiKey, $ip, $keyParams)
     {
-        $algolia = new AlgoliaClient($appId, $apiKey);
+        $algolia = SearchClient::create($appId, $apiKey);
 
-        $key = $algolia->newApiKey($keyParams)['key'];
+        $acl = $keyParams['acl'];
+        unset($keyParams['acl']);
 
-        return $key;
+        $key = $algolia->addApiKey($acl, $keyParams)->wait();
+
+        return $key['key'];
     }
 
     private function getComment($config)
