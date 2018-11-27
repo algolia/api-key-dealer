@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'default' =>[
+    'default' => [
         'app-id' => 'test', // Yes, it's a valid app ID
         'super-admin-key' => env('DEFAULT_ADMIN_KEY'),
         'places' => false,
@@ -19,6 +19,13 @@ return [
             'maxHitsPerQuery' => 501,
             'indexes' => ['TRAVIS_*'],
         ],
+    ],
+    'cts' => [
+        // Introduced for the Common Test Suite
+        'app-id-1' => 'NOCTT5TZUU',
+        'super-admin-key-1' => env('CTS_1_ADMIN_KEY'),
+        'app-id-2' => 'UCX3XB3SH4',
+        'super-admin-key-2' => env('CTS_2_ADMIN_KEY'),
     ],
     'algolia/search-bundle' => [
         'app-id' => 'I2UB5B7IZB',
