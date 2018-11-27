@@ -21,6 +21,11 @@ type Credentials struct {
 	AppId        string `json:"app-id"`
 	ApiKey       string `json:"api-key"`
 	ApiSearchKey string `json:"api-search-key"`
+	CtsAppId1 string `json:"ALGOLIA_APPLICATION_ID_1"`
+	CtsApiKey1 string `json:"ALGOLIA_ADMIN_KEY_1"`
+	CtsApiSearchKey1 string `json:"ALGOLIA_SEARCH_KEY_1"`
+	CtsAppId2 string `json:"ALGOLIA_APPLICATION_ID_2"`
+	CtsApiKey2 string `json:"ALGOLIA_ADMIN_KEY_2"`
 	Places struct {
 		AppId  string `json:"app-id"`
 		ApiKey string `json:"api-key"`
@@ -52,6 +57,15 @@ func export() {
 		credentials.AppId,
 		credentials.ApiKey,
 		credentials.ApiSearchKey,
+	)
+
+	cmd += fmt.Sprintf(
+		" ALGOLIA_APPLICATION_ID_1=%s ALGOLIA_ADMIN_KEY_1=%s ALGOLIA_SEARCH_KEY_1=%s ALGOLIA_APPLICATION_ID_2=%s ALGOLIA_ADMIN_KEY_2=%s",
+		credentials.CtsAppId1,
+		credentials.CtsApiKey1,
+		credentials.CtsApiSearchKey1,
+		credentials.CtsAppId2,
+		credentials.CtsApiKey2,
 	)
 
 	if credentials.Places.ApiKey != "" {
