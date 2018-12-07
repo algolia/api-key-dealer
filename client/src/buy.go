@@ -112,7 +112,7 @@ func getApiKey() Credentials {
 	req.Header.Add("Content-Type", "application/json")
 
 	client := &http.Client{
-		Timeout: 15 * time.Second,
+		Timeout: 90 * time.Second,
 	}
 	resp, err := client.Do(req)
 	if err != nil {
