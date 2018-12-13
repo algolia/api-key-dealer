@@ -16,21 +16,14 @@ class SetRepoConfig
      */
     public function handle($request, Closure $next)
     {
-        $source = config('source');
-
-        if (in_array($source, ['local', 'whitelist'])) {
-            config([
-                'repository-name' => $request->get('repository-name')
-            ]);
-        } elseif ('travis' == $source) {
-            $authorized = $this->handleTravis($request);
-            if (true !== $authorized) {
-                return $authorized;
-            }
-        }
+        $repoSlug = $request->get('REPO_SLUG');
 
         config([
-            'repository-config' => $this->getConfig(config('repository-name'))
+            'repository-name' => $repoSlug
+        ]);
+
+        config([
+            'repository-config' => $this->getConfig($repoSlug)
         ]);
 
         return $next($request);
@@ -62,35 +55,5 @@ class SetRepoConfig
         }
 
         return $config;
-    }
-
-    private function handleTravis($request)
-    {
-        $jobId = $request->get('TRAVIS_JOB_ID');
-
-        if (! $jobId) {
-            return abort(400, 'TRAVIS_JOB_ID is missing');
-        }
-
-        if (! $this->isTravisJobLegit($jobId)) {
-            return abort(400, "The TRAVIS_JOB_ID $jobId isn't currently running");
-        }
-
-        return true;
-    }
-
-    private function isTravisJobLegit($jobId)
-    {
-        $travis = new TravisAPI(env('TRAVIS_API_TOKEN'));
-        $job = $travis->getJob($jobId);
-
-        $statusOk = 'started' === $job['job']['state'];
-
-        $orga = explode('/', $job['job']['repository_slug'])[0];
-        $repoOk = in_array($orga, ['algolia', 'julienbourdeau']);
-
-        config(['repository-name' => $job['job']['repository_slug']]);
-
-        return $statusOk && $repoOk;
     }
 }
