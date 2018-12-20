@@ -57,7 +57,7 @@ return [
         'key-params' => [
             'maxQueriesPerIPPerHour' => 10000,
             'maxHitsPerQuery' => 300,
-            'indexes' => ['TRAVIS_RAILS_*', 'rails_'],
+            'indexes' => ['TRAVIS_RAILS_*', 'rails_*'],
         ],
     ],
     'algolia/algoliasearch-client-ruby' => [
