@@ -31,6 +31,9 @@
     "scripts": {
         "post-root-package-install": [
             "php -r \"copy('.env.example', '.env');\""
+        ],
+        "post-install-cmd": [
+            "php -r \"touch('database/database.sqlite');\""
         ]
     },
     "config": {
