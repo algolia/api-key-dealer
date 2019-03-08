@@ -87,7 +87,7 @@ func export() {
 func getApiKey() Credentials {
 	p := Payload{
 		TRAVIS_JOB_ID: string(os.Getenv("TRAVIS_JOB_ID")),
-		REPO_SLUG:       string(os.Getenv("REPO_SLUG")),
+		REPO_SLUG:       string(os.Getenv("TRAVIS_REPO_SLUG")),
 	}
 	jsonPayload, err := json.Marshal(p)
 
