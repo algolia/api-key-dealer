@@ -1,2 +1,2 @@
-release: php artisan dealer:update:travis-ip
+release: ./release.sh
 web: vendor/bin/heroku-php-apache2 public

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4cbf1fdbe9c535f92e0789993f44615c",
+    "content-hash": "d915adceab2711158660f5858674899f",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -1484,16 +1484,16 @@
         },
         {
             "name": "laravel/lumen-framework",
-            "version": "v5.8.0",
+            "version": "v5.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/lumen-framework.git",
-                "reference": "03f5371974607e43c6414d83fe8d5c756aee0725"
+                "reference": "c2c7a3b5fcd5fb5faf519f5498c0688fd652e93e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/lumen-framework/zipball/03f5371974607e43c6414d83fe8d5c756aee0725",
-                "reference": "03f5371974607e43c6414d83fe8d5c756aee0725",
+                "url": "https://api.github.com/repos/laravel/lumen-framework/zipball/c2c7a3b5fcd5fb5faf519f5498c0688fd652e93e",
+                "reference": "c2c7a3b5fcd5fb5faf519f5498c0688fd652e93e",
                 "shasum": ""
             },
             "require": {
@@ -1565,7 +1565,7 @@
                 "laravel",
                 "lumen"
             ],
-            "time": "2019-03-05T14:30:59+00:00"
+            "time": "2019-03-06T13:25:49+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -3007,16 +3007,16 @@
         },
         {
             "name": "vlucas/phpdotenv",
-            "version": "v3.3.2",
+            "version": "v3.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vlucas/phpdotenv.git",
-                "reference": "1ee9369cfbf26cfcf1f2515d98f15fab54e9647a"
+                "reference": "dbcc609971dd9b55f48b8008b553d79fd372ddde"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/1ee9369cfbf26cfcf1f2515d98f15fab54e9647a",
-                "reference": "1ee9369cfbf26cfcf1f2515d98f15fab54e9647a",
+                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/dbcc609971dd9b55f48b8008b553d79fd372ddde",
+                "reference": "dbcc609971dd9b55f48b8008b553d79fd372ddde",
                 "shasum": ""
             },
             "require": {
@@ -3055,7 +3055,7 @@
                 "env",
                 "environment"
             ],
-            "time": "2019-01-30T10:43:17+00:00"
+            "time": "2019-03-06T09:39:45+00:00"
         }
     ],
     "packages-dev": [
@@ -4031,6 +4031,7 @@
                 "mock",
                 "xunit"
             ],
+            "abandoned": true,
             "time": "2018-08-09T05:50:03+00:00"
         },
         {
@@ -4690,7 +4691,8 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.0"
+        "php": ">=7.0",
+        "ext-pdo_sqlite": "*"
     },
     "platform-dev": []
 }
