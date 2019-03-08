@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Config;
 use App\Key;
 use Illuminate\Console\Command;
+use Illuminate\Support\Str;
 
 class UpdateParentApiKeys extends Command
 {
@@ -27,6 +28,7 @@ class UpdateParentApiKeys extends Command
         // All all missing keys to the DB
         $toCreate = array_values(array_diff($appIds, $appIdsInDb));
         foreach ($toCreate as $appId) {
+            $this->info("Creating Key for $appId with admin key [".Str::limit(env($appId.'_ADMIN'), 6).']');
             Key::create(['app_id' => $appId]);
         }
 
@@ -36,6 +38,7 @@ class UpdateParentApiKeys extends Command
             ->orWhere('expires_at', null)
             ->get()
             ->each(function (Key $key) {
+                $this->info('Updating Key for ' .$key->app_id.'with admin key ['.Str::limit(env($key->app_id.'_ADMIN'), 6).']');
                 $key->updateKeys();
             })
         ;
