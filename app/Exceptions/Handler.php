@@ -70,10 +70,10 @@ class Handler extends ExceptionHandler
         }
 
         $content  = [
-            'comment' => $e->getMessage() ?: $e->getStatusCode().': Oops',
+            'comment' => $e->getMessage() ?: 'Oops',
         ];
 
-        $response = new Response($content, $e->getStatusCode(), $e->getHeaders());
+        $response = new Response($content, $e->getStatusCode() ?? 500, $e->getHeaders() ?? []);
 
         $response->exception = $e;
 
