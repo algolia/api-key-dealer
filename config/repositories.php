@@ -3,7 +3,6 @@
 return [
     'algolia/search-bundle' => [
         'app-id' => 'I2UB5B7IZB',
-        'super-admin-key' => env('PHP_ADMIN_KEY'),
         'key-params' => [
             'acl' => [
                 'search',
@@ -16,18 +15,12 @@ return [
     ],
     'algolia/algoliasearch-client-php' => [
         'app-id' => 'I2UB5B7IZB',
-        'super-admin-key' => env('PHP_ADMIN_KEY'),
         'key-params' => [
             'indexes' => ['TRAVIS_php_*'],
-        ],
-        'places' => [
-            'app-id' => 'plSYS0QH6R4R',
-            'super-admin-key' => env('PLACES_ADMIN_KEY'),
         ],
     ],
     'algolia/algoliasearch-rails' => [
         'app-id' => 'KTG3Y5H8FB',
-        'super-admin-key' => env('RAILS_ADMIN_KEY'),
         'key-params' => [
             'maxQueriesPerIPPerHour' => 10000,
             'maxHitsPerQuery' => 300,
@@ -36,7 +29,6 @@ return [
     ],
     'algolia/algoliasearch-client-ruby' => [
         'app-id' => 'N415NQ98FV',
-        'super-admin-key' => env('RUBY_ADMIN_KEY'),
         'key-params' => [
             'maxQueriesPerIPPerHour' => 50000,
             'maxHitsPerQuery' => 3000,
@@ -45,7 +37,6 @@ return [
     ],
     'algolia/algoliasearch-magento' => [
         'app-id' => 'I2UB5B7IZB',
-        'super-admin-key' => env('PHP_ADMIN_KEY'),
         'key-params' => [
             'maxHitsPerQuery' => 300,
             'indexes' => ['TRAVIS_M1_*'],
@@ -53,7 +44,6 @@ return [
     ],
     'algolia/algoliasearch-magento-2' => [
         'app-id' => 'I2UB5B7IZB',
-        'super-admin-key' => env('PHP_ADMIN_KEY'),
         'key-params' => [
             'maxHitsPerQuery' => 300,
             'indexes' => ['TRAVIS_M2_*'],
@@ -66,7 +56,6 @@ return [
     ],
     "algolia/algoliasearch-client-python" => [
         'app-id' => 'RDOT4PBY36',
-        'super-admin-key' => env('PYTHON_ADMIN_KEY'),
         'key-params' => [
             'indexes' => ['TRAVIS_PYTHON_*'],
             'maxQueriesPerIPPerHour' => 10000,
@@ -74,14 +63,12 @@ return [
     ],
     "algolia/algoliasearch-client-python-async" => [
         'app-id' => 'RDOT4PBY36',
-        'super-admin-key' => env('PYTHON_ADMIN_KEY'),
         'key-params' => [
             'indexes' => ['TRAVIS_PYTHONasync_*'],
         ],
     ],
     "algolia/algoliasearch-client-java-2" => [
         'app-id' => 'GLKI3BO0NS',
-        'super-admin-key' => env('JAVA2_ADMIN_KEY'),
         'key-params' => [
             'indexes' => [],
             'maxQueriesPerIPPerHour' => 10000,

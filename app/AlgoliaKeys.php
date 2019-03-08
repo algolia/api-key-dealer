@@ -3,6 +3,7 @@
 namespace App;
 
 use Algolia\AlgoliaSearch\SearchClient;
+use Illuminate\Http\Request;
 
 class AlgoliaKeys
 {
@@ -11,94 +12,81 @@ class AlgoliaKeys
         //
     }
 
-    public function forge(Config $config, $ip)
+    public function forge(Config $config, $withCtsCredentials = false)
     {
         $response = [
             'app-id' => $config->getAppId(),
         ];
 
-        $response = $this->addDedicatedKeys($response, $config, $ip);
+        $response = $this->addDedicatedKeys($response, $config);
 
-        $response = $this->addCTSKeys($response, $config, $ip);
-
-        $response = array_merge($response, [
-            'comment' => $this->getComment($config),
-            'request-id' => config('request_id'),
-        ]);
+        if ($withCtsCredentials) {
+            $response = $this->addCTSKeys($response, $config);
+        }
 
         return $response;
     }
 
 
-    private function addDedicatedKeys(array $response, Config $config, $ip)
+    private function addDedicatedKeys(array $response, Config $config)
     {
-        $key = $this->generateKey($config->getAppId(), $config->getSuperAdminKey(), $config->getKeyParams(), $ip);
+        $key = Key::findOrCreate($config->getAppId());
 
-        $searchKey = $this->generateSearchKey($config->getAppId(), $config->getSuperAdminKey(), $config->getKeyParams(), $ip);
+        $writeKey = $this->generateKey($key->write, $config->getKeyParams());
+
+        $searchKey = $this->generateSearchKey($key->search, $config->getKeyParams());
 
         return array_merge($response, [
-            'api-key' => $key,
+            'api-key' => $writeKey,
             'api-search-key' => $searchKey,
         ]);
     }
 
-    private function addCTSKeys(array $response, Config $config, $ip): array
+    private function addCTSKeys(array $response, Config $config): array
     {
-        $key1 = $this->generateKey(
-            $config->getCtsAppId(1),
-            $config->getCtsSuperAdminKey(1),
-            $config->getKeyParams(),
-            $ip
+        $key = Key::findOrCreate($config->getCtsAppId(1));
+
+        $writeKey1 = $this->generateKey(
+            $key->write,
+            $config->getKeyParams()
         );
 
         $searchKey1 = $this->generateSearchKey(
-            $config->getCtsAppId(1),
-            $config->getCtsSuperAdminKey(1),
-            $config->getKeyParams(),
-            $ip
+            $key->write,
+            $config->getKeyParams()
         );
 
-        $key2 = $this->generateKey(
-            $config->getCtsAppId(2),
-            $config->getCtsSuperAdminKey(2),
-            $config->getKeyParams(),
-            $ip
+        $key2 = Key::findOrCreate($config->getCtsAppId(2));
+
+        $writeKey2 = $this->generateKey(
+            $key2->write,
+            $config->getKeyParams()
         );
 
         return array_merge($response, [
             'ALGOLIA_APPLICATION_ID_1' => $config->getCtsAppId(1),
-            'ALGOLIA_ADMIN_KEY_1' => $key1,
+            'ALGOLIA_ADMIN_KEY_1' => $writeKey1,
             'ALGOLIA_SEARCH_KEY_1' => $searchKey1,
             'ALGOLIA_APPLICATION_ID_2' => $config->getCtsAppId(2),
-            'ALGOLIA_ADMIN_KEY_2' => $key2,
+            'ALGOLIA_ADMIN_KEY_2' => $writeKey2,
         ]);
     }
 
-    private function generateSearchKey($appId, $apiKey, $keyParams, $ip = null)
+    private function generateSearchKey($parentApiKey, $keyParams)
     {
-        // TODO: HERE
         $keyParams['acl'] = ['search'];
 
-        return $this->generateKey($appId, $apiKey, $keyParams, $ip);
+        return $this->generateKey($parentApiKey, $keyParams);
     }
 
-    private function generateKey($appId, $apiKey, $keyParams, $ip = null)
+    private function generateKey($parentApiKey, $keyParams)
     {
-        // TODO: HERE
-        $algolia = SearchClient::create($appId, $apiKey);
+        $ip = app(Request::class)->getClientIp();
 
-        $acl = $keyParams['acl'];
-        unset($keyParams['acl']);
-
-        $key = $algolia->addApiKey($acl, $keyParams)->wait();
-
-        return $key['key'];
-    }
-
-    private function getComment(Config $config)
-    {
-        $validity = $config->getKeyParams()['validity'] / 60;
-
-        return "The keys will expire after $validity minutes.";
+        return SearchClient::generateSecuredApiKey($parentApiKey, [
+            'validUntil' => time() + $keyParams['validity'],
+            'restrictIndices' => implode(',', $keyParams['indexes']),
+            'restrictSources' => $ip,
+        ]);
     }
 }
