@@ -33,7 +33,9 @@ class UpdateParentApiKeys extends Command
         }
 
         // Update all keys expiring in the next 12 hours
-        Key::where('expires_at', '<', time() + 43200) // 12 hours
+        $limit = \DateTime::createFromFormat('U', time() + 43200)->format('Y-m-d H:i:s');
+
+        Key::where('expires_at', '<', $limit) // 12 hours
             ->whereIn('app_id', $appIds)
             ->orWhere('expires_at', null)
             ->get()

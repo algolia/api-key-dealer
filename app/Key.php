@@ -60,7 +60,7 @@ class Key extends Model
 
         $this->write = $algolia->addApiKey($this->acl)['key'];
         $this->search = $algolia->addApiKey(['search'])['key'];
-        $this->expires_at = env('KEY_VALIDITY') + time();
+        $this->expires_at = \DateTime::createFromFormat('U', env('KEY_VALIDITY') + time())->format('Y-m-d H:i:s');
 
         $this->update();
 
