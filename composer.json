@@ -6,8 +6,8 @@
     "type": "project",
     "require": {
         "php": ">=7.0",
-        "laravel/lumen-framework": "5.7.*",
-        "vlucas/phpdotenv": "~2.2",
+        "laravel/lumen-framework": "5.8.*",
+        "vlucas/phpdotenv": "^3.3",
         "algolia/algoliasearch-client-php": "^2.0",
         "fideloper/proxy": "^4.0",
         "sentry/sentry-laravel": "^0.8.0"
@@ -31,6 +31,9 @@
     "scripts": {
         "post-root-package-install": [
             "php -r \"copy('.env.example', '.env');\""
+        ],
+        "post-install-cmd": [
+            "php -r \"touch('database/database.sqlite');\""
         ]
     },
     "config": {

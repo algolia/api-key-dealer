@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\AlgoliaKeys;
+use App\Config;
+use App\Http\Middleware\IsTravisRunning;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -15,20 +17,33 @@ class TravisController extends Controller
 
     public function __construct(AlgoliaKeys $algoliaKeys)
     {
+        $this->middleware(IsTravisRunning::class);
+
         $this->algoliaKeys = $algoliaKeys;
     }
 
     public function getAlgoliaCredentials(Request $request)
     {
-        $response = [];
         $config = config('repository-config');
-        $ip = $request->getClientIp();
+        $isClient = str_contains(config('repository-name'), '-client-');
 
-        $response = $this->algoliaKeys->forge($config, $ip);
+        $keys = $this->algoliaKeys->forge($config, $isClient);
 
-        $this->log(array_merge($response, ['IP Address' => $ip]));
+        $response = array_merge($keys, [
+            'comment' => $this->getComment($config),
+            'request-id' => config('request_id'),
+        ]);
+
+        $this->log(array_merge($response, ['IP Address' => $request->getClientIp()]));
 
         return response($response, 201);
+    }
+
+    private function getComment(Config $config)
+    {
+        $validity = $config->getKeyParams()['validity'] / 60;
+
+        return "The keys will expire after $validity minutes.";
     }
 
     private function log($context)

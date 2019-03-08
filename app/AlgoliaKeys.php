@@ -3,6 +3,7 @@
 namespace App;
 
 use Algolia\AlgoliaSearch\SearchClient;
+use Illuminate\Http\Request;
 
 class AlgoliaKeys
 {
@@ -11,121 +12,81 @@ class AlgoliaKeys
         //
     }
 
-    public function forge($config, $ip)
+    public function forge(Config $config, $withCtsCredentials = false)
     {
-        $response = $this->createLegacyKeys($config, $ip);
+        $response = [
+            'app-id' => $config->getAppId(),
+        ];
 
-        if ($config['places']) {
-            $response = array_merge($response, $this->createPlacesKey($config, $ip));
+        $response = $this->addDedicatedKeys($response, $config);
+
+        if ($withCtsCredentials) {
+            $response = $this->addCTSKeys($response, $config);
         }
-
-        $response = array_merge($response, $this->createCTSKeys($config, $ip));
-
-        $response = array_merge($response, [
-            'comment' => $this->getComment($config),
-            'request-id' => config('request_id'),
-        ]);
 
         return $response;
     }
 
 
-    private function createLegacyKeys($config, $ip)
+    private function addDedicatedKeys(array $response, Config $config)
     {
-        $key = $this->generateKey(
-            $config['app-id'],
-            $config['super-admin-key'],
-            $ip,
-            $config['key-params']
-        );
+        $key = Key::findOrCreate($config->getAppId());
 
-        $searchKey = $this->generateSearchKey(
-            $config['app-id'],
-            $config['super-admin-key'],
-            $ip,
-            $config['key-params']
-        );
+        $writeKey = $this->generateKey($key->write, $config->getKeyParams());
 
-        return [
-            'app-id' => $config['app-id'],
-            'api-key' => $key,
+        $searchKey = $this->generateSearchKey($key->search, $config->getKeyParams());
+
+        return array_merge($response, [
+            'api-key' => $writeKey,
             'api-search-key' => $searchKey,
-        ];
+        ]);
     }
 
-    private function createCTSKeys($config, $ip): array
+    private function addCTSKeys(array $response, Config $config): array
     {
-        $appId1 = config('repositories.cts.app-id-1');
-        $appId2 = config('repositories.cts.app-id-2');
+        $key = Key::findOrCreate($config->getCtsAppId(1));
 
-        $key1 = $this->generateKey(
-            $appId1,
-            config('repositories.cts.super-admin-key-1'),
-            $ip,
-            $config['key-params']
+        $writeKey1 = $this->generateKey(
+            $key->write,
+            $config->getKeyParams()
         );
 
         $searchKey1 = $this->generateSearchKey(
-            $appId1,
-            config('repositories.cts.super-admin-key-1'),
-            $ip,
-            $config['key-params']
+            $key->write,
+            $config->getKeyParams()
         );
 
-        $key2 = $this->generateKey(
-            $appId2,
-            config('repositories.cts.super-admin-key-2'),
-            $ip,
-            $config['key-params']
+        $key2 = Key::findOrCreate($config->getCtsAppId(2));
+
+        $writeKey2 = $this->generateKey(
+            $key2->write,
+            $config->getKeyParams()
         );
 
-        return [
-            'ALGOLIA_APPLICATION_ID_1' => $appId1,
-            'ALGOLIA_ADMIN_KEY_1' => $key1,
+        return array_merge($response, [
+            'ALGOLIA_APPLICATION_ID_1' => $config->getCtsAppId(1),
+            'ALGOLIA_ADMIN_KEY_1' => $writeKey1,
             'ALGOLIA_SEARCH_KEY_1' => $searchKey1,
-            'ALGOLIA_APPLICATION_ID_2' => $appId2,
-            'ALGOLIA_ADMIN_KEY_2' => $key2,
-        ];
+            'ALGOLIA_APPLICATION_ID_2' => $config->getCtsAppId(2),
+            'ALGOLIA_ADMIN_KEY_2' => $writeKey2,
+        ]);
     }
 
-    private function createPlacesKey($config, $ip)
-    {
-        $placesKey = $this->generateKey(
-            $config['places']['app-id'],
-            $config['places']['super-admin-key'],
-            $ip,
-            $config['key-params']
-        );
-
-        return [
-            'app-id' => $config['places']['app-id'],
-            'api-key' => $placesKey,
-        ];
-    }
-
-    private function generateSearchKey($appId, $apiKey, $ip, $keyParams)
+    private function generateSearchKey($parentApiKey, $keyParams)
     {
         $keyParams['acl'] = ['search'];
 
-        return $this->generateKey($appId, $apiKey, $ip, $keyParams);
+        return $this->generateKey($parentApiKey, $keyParams);
     }
 
-    private function generateKey($appId, $apiKey, $ip, $keyParams)
+    private function generateKey($parentApiKey, $keyParams)
     {
-        $algolia = SearchClient::create($appId, $apiKey);
+        $ip = app(Request::class)->getClientIp();
 
-        $acl = $keyParams['acl'];
-        unset($keyParams['acl']);
-
-        $key = $algolia->addApiKey($acl, $keyParams)->wait();
-
-        return $key['key'];
-    }
-
-    private function getComment($config)
-    {
-        $validity = $config['key-params']['validity'] / 60;
-
-        return "The keys will expire after $validity minutes.";
+        return SearchClient::generateSecuredApiKey($parentApiKey, [
+            'validUntil' => time() + $keyParams['validity'],
+            'restrictIndices' => implode(',', $keyParams['indexes']),
+            'restrictSources' => $ip,
+        ]);
     }
 }

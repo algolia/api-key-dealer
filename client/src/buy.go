@@ -13,7 +13,7 @@ import (
 
 type Payload struct {
 	TRAVIS_JOB_ID string
-	APP_ENV       string
+	REPO_SLUG       string
 }
 
 type Credentials struct {
@@ -87,7 +87,7 @@ func export() {
 func getApiKey() Credentials {
 	p := Payload{
 		TRAVIS_JOB_ID: string(os.Getenv("TRAVIS_JOB_ID")),
-		APP_ENV:       string(os.Getenv("APP_ENV")),
+		REPO_SLUG:       string(os.Getenv("REPO_SLUG")),
 	}
 	jsonPayload, err := json.Marshal(p)
 

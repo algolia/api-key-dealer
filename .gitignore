@@ -5,3 +5,4 @@ Homestead.yaml
 .env
 buy
 .env.travis
+database/database.sqlite
