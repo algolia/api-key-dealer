@@ -58,8 +58,8 @@ class Key extends Model
     {
         $algolia = SearchClient::create($this->app_id, env($this->app_id.'_ADMIN'));
 
-        $this->write = $algolia->addApiKey($this->acl)->wait()['key'];
-        $this->search = $algolia->addApiKey(['search'])->wait()['key'];
+        $this->write = $algolia->addApiKey($this->acl)['key'];
+        $this->search = $algolia->addApiKey(['search'])['key'];
         $this->expires_at = env('KEY_VALIDITY') + time();
 
         $this->update();
