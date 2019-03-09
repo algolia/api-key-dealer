@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Algolia\AlgoliaSearch\Support\UserAgent;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,6 +14,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        UserAgent::addCustomUserAgent('Api Key Dealer', '1.0.0');
+
         $this->app->configure('database');
         $this->app->configure('custom');
         $this->app->configure('repositories');

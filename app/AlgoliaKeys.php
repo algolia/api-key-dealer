@@ -81,12 +81,9 @@ class AlgoliaKeys
 
     private function generateKey($parentApiKey, $keyParams)
     {
-        $ip = app(Request::class)->getClientIp();
-
         return SearchClient::generateSecuredApiKey($parentApiKey, [
             'validUntil' => time() + $keyParams['validity'],
             'restrictIndices' => implode(',', $keyParams['indexes']),
-            'restrictSources' => $ip,
         ]);
     }
 }
