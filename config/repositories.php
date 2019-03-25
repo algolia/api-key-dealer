@@ -48,10 +48,6 @@ return [
             'maxHitsPerQuery' => 300,
             'indexes' => ['TRAVIS_M2_*'],
         ],
-        'extra' => [
-            'MAGENTO_AUTH_USERNAME' => env('MAGENTO_AUTH_USERNAME'),
-            'MAGENTO_AUTH_PASSWORD' => env('MAGENTO_AUTH_PASSWORD'),
-        ],
     ],
     "algolia/algoliasearch-client-javascript" => [
         'key-params' => [
