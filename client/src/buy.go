@@ -13,20 +13,21 @@ import (
 
 type Payload struct {
 	TRAVIS_JOB_ID string
-	REPO_SLUG       string
+	REPO_SLUG     string
 }
 
 type Credentials struct {
-	RequestId string `json:"request-id"`
-	AppId        string `json:"app-id"`
-	ApiKey       string `json:"api-key"`
-	ApiSearchKey string `json:"api-search-key"`
-	CtsAppId1 string `json:"ALGOLIA_APPLICATION_ID_1"`
-	CtsApiKey1 string `json:"ALGOLIA_ADMIN_KEY_1"`
-	CtsApiSearchKey1 string `json:"ALGOLIA_SEARCH_KEY_1"`
-	CtsAppId2 string `json:"ALGOLIA_APPLICATION_ID_2"`
-	CtsApiKey2 string `json:"ALGOLIA_ADMIN_KEY_2"`
-	Places struct {
+	RequestId        string            `json:"request-id"`
+	AppId            string            `json:"app-id"`
+	ApiKey           string            `json:"api-key"`
+	ApiSearchKey     string            `json:"api-search-key"`
+	CtsAppId1        string            `json:"ALGOLIA_APPLICATION_ID_1"`
+	CtsApiKey1       string            `json:"ALGOLIA_ADMIN_KEY_1"`
+	CtsApiSearchKey1 string            `json:"ALGOLIA_SEARCH_KEY_1"`
+	CtsAppId2        string            `json:"ALGOLIA_APPLICATION_ID_2"`
+	CtsApiKey2       string            `json:"ALGOLIA_ADMIN_KEY_2"`
+	Extra            map[string]string `json:"extra,omitempty"`
+	Places           struct {
 		AppId  string `json:"app-id"`
 		ApiKey string `json:"api-key"`
 	} `json:"places"`
@@ -68,6 +69,10 @@ func export() {
 		credentials.CtsApiKey2,
 	)
 
+	for k, v := range credentials.Extra {
+		cmd += fmt.Sprintf(" %s=%s", k, v)
+	}
+
 	if credentials.Places.ApiKey != "" {
 		cmd += fmt.Sprintf(
 			" ALGOLIA_APP_ID_PLACES=%s ALGOLIA_API_KEY_PLACES=%s",
@@ -87,7 +92,7 @@ func export() {
 func getApiKey() Credentials {
 	p := Payload{
 		TRAVIS_JOB_ID: string(os.Getenv("TRAVIS_JOB_ID")),
-		REPO_SLUG:       string(os.Getenv("TRAVIS_REPO_SLUG")),
+		REPO_SLUG:     string(os.Getenv("TRAVIS_REPO_SLUG")),
 	}
 	jsonPayload, err := json.Marshal(p)
 
@@ -131,7 +136,7 @@ func getApiKey() Credentials {
 	err = json.Unmarshal(body, &credentials)
 	if err != nil {
 		log.Println(string(body))
-		log.Fatal("Invalid json response")
+		log.Fatal(err)
 		os.Exit(101)
 	}
 

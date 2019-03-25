@@ -72,6 +72,11 @@ class Config
         return $this->cts[$appIndex - 1]['super-admin-key'];
     }
 
+    public function getExtra()
+    {
+        return $this->config['extra'] ?? [];
+    }
+
     private function mergeConfig($original, $default)
     {
 
