@@ -24,6 +24,12 @@ class AlgoliaKeys
             $response = $this->addCTSKeys($response, $config);
         }
 
+        if ($extra = $config->getExtra()) {
+            $response = array_merge($response, [
+                'extra' => $extra,
+            ]);
+        }
+
         return $response;
     }
 
