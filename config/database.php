@@ -59,11 +59,11 @@ return [
 
         'pgsql' => [
             'driver' => 'pgsql',
-            'host' => $url['host'],
-            'port' => $url['port'],
-            'database' => substr($url['path'], 1),
-            'username' => $url['user'],
-            'password' => $url['pass'],
+            'host' => $url['host'] ?? '',
+            'port' => $url['port'] ?? '',
+            'database' => substr($url['path'] ?? '', 1),
+            'username' => $url['user'] ?? '',
+            'password' => $url['pass'] ?? '',
             'charset' => env('DB_CHARSET', 'utf8'),
             'prefix' => env('DB_PREFIX', ''),
             'schema' => env('DB_SCHEMA', 'public'),
