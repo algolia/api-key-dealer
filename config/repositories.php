@@ -19,6 +19,12 @@ return [
             'indexes' => ['TRAVIS_php_*'],
         ],
     ],
+    'algolia/algoliasearch-client-php-helper' => [
+        'app-id' => 'I2UB5B7IZB',
+        'key-params' => [
+            'indexes' => ['TRAVIS_php-helper_*'],
+        ],
+    ],
     'algolia/algoliasearch-rails' => [
         'app-id' => 'KTG3Y5H8FB',
         'key-params' => [
