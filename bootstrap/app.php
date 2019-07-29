@@ -65,7 +65,8 @@ $app->middleware([
 ]);
 
 $app->routeMiddleware([
-    //
+    'travis' => \App\Http\Middleware\IsTravisRunning::class,
+    'circleci' => \App\Http\Middleware\IsCircleciRunning::class,
 ]);
 
 /*

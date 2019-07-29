@@ -20,7 +20,8 @@ class SetSource
 
         $ipAuthorized = $this->isLocal($ip)
             || $this->isFromAuthorizedIp($ip)
-            || $this->isFromTravis($ip);
+            || $this->isFromTravis($ip)
+            || $this->isFromCircleCi();
 
         if ($ipAuthorized) {
             return $next($request);
@@ -99,6 +100,11 @@ class SetSource
             return true;
         }
 
+        return false;
+    }
+
+    private function isFromCircleCi()
+    {
         return false;
     }
 }

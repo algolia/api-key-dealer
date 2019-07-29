@@ -17,4 +17,12 @@ if (env('APP_DEBUG')) {
     });
 }
 
-$router->post('/1/travis/keys/new', 'TravisController@getAlgoliaCredentials');
+$middleware = 'travis';
+if (env('CIRCLE_BUILD_NUM')) {
+    $middleware = 'circleci';
+}
+
+$router->post('/1/algolia/keys/new', [
+    'middleware' => $middleware,
+    'uses' => 'AlgoliaController@getAlgoliaCredentials',
+]);
