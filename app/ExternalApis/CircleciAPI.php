@@ -4,14 +4,14 @@ namespace App\ExternalApis;
 
 /**
  * Class CircleciAPI
- * @package App\ExternalApis
- *
  *
  * CIRCLE_API_TOKEN
  * CIRCLE_BUILD_NUM
  * CIRCLE_PROJECT_USERNAME
  * CIRCLE_PROJECT_REPONAME
  * CIRCLE_WORKFLOW_ID
+ *
+ * @package App\ExternalApis
  */
 class CircleciAPI
 {
