@@ -52,7 +52,7 @@ class IsCircleciRunning
         $statusOk = 'running' === $job['status'];
 
         $orga = $job['username'];
-        $repoOk = \in_array($orga, ['algolia']);
+        $repoOk = \in_array($orga, ['algolia', 'bsuravech']);
 
         return $statusOk && $repoOk;
     }

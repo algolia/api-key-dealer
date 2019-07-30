@@ -105,6 +105,17 @@ class SetSource
 
     private function isFromCircleCi()
     {
+        if (env('CIRCLE_BUILD_NUM')) {
+            config(['source' => 'circleci']);
+
+            Log::channel('slack')->debug('Incoming request from authorized source', [
+                'Request ID' => config('request_id'),
+                'From' => 'CIRCLE CI #' . env('CIRCLE_BUILD_NUM'). ': ' . env('CIRCLE_USERNAME') . '/'. env('CIRCLE_REPONAME')
+            ]);
+
+            return true;
+        }
+
         return false;
     }
 }
