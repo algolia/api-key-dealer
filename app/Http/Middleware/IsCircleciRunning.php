@@ -28,15 +28,15 @@ class IsCircleciRunning
             return abort(400, 'CIRCLE_BUILD_NUM is missing');
         }
 
-        if (! $this->isJobLegit($jobId, $request->get('CIRCLE_WORKFLOW_ID'), $request->get('CIRCLE_USERNAME'))) {
+        if (! $this->confirmJobLegitimacy($jobId, $request->get('CIRCLE_WORKFLOW_ID'), $request->get('CIRCLE_USERNAME'))) {
             return abort(400, "The CIRCLE_BUILD_NUM $jobId isn't currently running 
-                or CIRCLE_WORKFLOW_ID or CIRCLE_USERNAME didn't match");
+                or CIRCLE_WORKFLOW_ID and/or CIRCLE_USERNAME didn't match.");
         }
 
         return true;
     }
 
-    private function isJobLegit($jobId, $workflowId, $projectUserName)
+    private function confirmJobLegitimacy($jobId, $workflowId, $projectUserName)
     {
         $circleCi = new CircleciAPI(env('CIRCLE_API_TOKEN'));
         $job = $circleCi->getJob($jobId);
