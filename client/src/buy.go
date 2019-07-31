@@ -113,7 +113,7 @@ func getApiKey() Credentials {
 
 	req, err := http.NewRequest(
 		"POST",
-		url+"/1/travis/keys/new",
+		url+"/1/algolia/keys/new",
 		strings.NewReader(string(jsonPayload)),
 	)
 

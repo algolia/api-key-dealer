@@ -80,7 +80,7 @@ parameter. It will only be taken into account if your call the API locally
 or from Algolia's office. It will bypass the call to Travis API.
 
 ```
-POST /1/travis/keys/new
+POST /1/algolia/keys/new
 {
     "repository-name": "algolia/algoliasearch-client-php",
 }
