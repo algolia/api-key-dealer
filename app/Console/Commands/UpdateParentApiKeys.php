@@ -40,7 +40,7 @@ class UpdateParentApiKeys extends Command
             ->orWhere('expires_at', null)
             ->get()
             ->each(function (Key $key) {
-                $this->info('Updating Key for ' .$key->app_id.'with admin key ['.Str::limit(env($key->app_id.'_ADMIN'), 6).']');
+                $this->info('Updating Key for ' .$key->app_id.' with admin key ['.Str::limit(env($key->app_id.'_ADMIN'), 6).']');
                 $key->updateKeys();
             })
         ;
