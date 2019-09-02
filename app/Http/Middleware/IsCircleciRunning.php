@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\ExternalApis\CircleciAPI;
+use function PHPSTORM_META\type;
 
 class IsCircleciRunning
 {
@@ -28,24 +29,19 @@ class IsCircleciRunning
             return abort(400, 'CIRCLE_BUILD_NUM is missing');
         }
 
-        if (! $this->confirmJobLegitimacy($jobId, $request->get('CIRCLE_WORKFLOW_ID'), $request->get('CIRCLE_USERNAME'))) {
-            return abort(400, "The CIRCLE_BUILD_NUM $jobId isn't currently running 
-                or CIRCLE_WORKFLOW_ID and/or CIRCLE_USERNAME didn't match.");
+        if (! $this->confirmJobLegitimacy($jobId, $request->get('CIRCLE_USERNAME'), $request->get('CIRCLE_REPONAME'))) {
+            return abort(400, "The CIRCLE_BUILD_NUM $jobId isn't currently running or CIRCLE_USERNAME didn't match.");
         }
 
         return true;
     }
 
-    private function confirmJobLegitimacy($jobId, $workflowId, $projectUserName)
+    private function confirmJobLegitimacy($jobId, $user, $repo)
     {
-        $circleCi = new CircleciAPI(env('CIRCLE_API_TOKEN'));
+        $circleCi = new CircleciAPI(env('CIRCLE_API_TOKEN'), $user, $repo);
         $job = $circleCi->getJob($jobId);
 
-        if ($workflowId !== $job['workflows']['workflow_id']) {
-            return false;
-        }
-
-        if ($projectUserName !== $job['username']) {
+        if ($user !== $job['username']) {
             return false;
         }
 

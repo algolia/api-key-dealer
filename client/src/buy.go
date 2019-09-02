@@ -17,7 +17,6 @@ type Payload struct {
 	CIRCLE_BUILD_NUM    string
 	CIRCLE_USERNAME     string
 	CIRCLE_REPONAME     string
-	CIRCLE_WORKFLOW_ID  string
 }
 
 type Credentials struct {
@@ -97,10 +96,9 @@ func getApiKey() Credentials {
 	p := Payload{
 		TRAVIS_JOB_ID:      string(os.Getenv("TRAVIS_JOB_ID")),
 		REPO_SLUG:          string(os.Getenv("TRAVIS_REPO_SLUG")),
-		CIRCLE_BUILD_NUM:   string(os.Getenv("CIRCLE_BUILD_NUM")),
-		CIRCLE_USERNAME:    string(os.Getenv("CIRCLE_PROJECT_USERNAME")),
-		CIRCLE_REPONAME:    string(os.Getenv("CIRCLE_PROJECT_REPONAME")),
-		CIRCLE_WORKFLOW_ID: string(os.Getenv("CIRCLE_WORKFLOW_ID")),
+		CIRCLE_BUILD_NUM:   string(os.Getenv("CI_BUILD_NUM")),
+		CIRCLE_USERNAME:    string(os.Getenv("CI_PROJ_USRNAME")),
+		CIRCLE_REPONAME:    string(os.Getenv("CI_PROJ_REPONAME")),
 	}
 	jsonPayload, err := json.Marshal(p)
 

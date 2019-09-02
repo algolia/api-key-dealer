@@ -18,7 +18,7 @@ if (env('APP_DEBUG')) {
 }
 
 $middleware = 'travis';
-if (env('CIRCLE_BUILD_NUM')) {
+if (env('CIRCLE_API_TOKEN')) {
     $middleware = 'circleci';
 }
 

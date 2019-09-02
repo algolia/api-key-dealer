@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Log;
 
 class SetSource
 {
+    private $request;
+
     /**
      * Handle an incoming request.
      *
@@ -16,6 +18,8 @@ class SetSource
      */
     public function handle($request, Closure $next)
     {
+        $this->request = $request;
+
         $ip = $request->getClientIp();
 
         $ipAuthorized = $this->isLocal($ip)
@@ -105,12 +109,12 @@ class SetSource
 
     private function isFromCircleCi()
     {
-        if (env('CIRCLE_BUILD_NUM')) {
+        if (env('CIRCLE_API_TOKEN')) {
             config(['source' => 'circleci']);
 
             Log::channel('slack')->debug('Incoming request from authorized source', [
                 'Request ID' => config('request_id'),
-                'From' => 'CIRCLE CI #' . env('CIRCLE_BUILD_NUM'). ': ' . env('CIRCLE_USERNAME') . '/'. env('CIRCLE_REPONAME')
+                'From' => 'CIRCLE CI #' . $this->request->get('CIRCLE_BUILD_NUM'). ': ' . $this->request->get('CIRCLE_USERNAME') . '/'. $this->request->get('CIRCLE_REPONAME')
             ]);
 
             return true;

@@ -9,7 +9,6 @@ namespace App\ExternalApis;
  * CIRCLE_BUILD_NUM
  * CIRCLE_PROJECT_USERNAME
  * CIRCLE_PROJECT_REPONAME
- * CIRCLE_WORKFLOW_ID
  *
  * @package App\ExternalApis
  */
@@ -21,12 +20,11 @@ class CircleciAPI
 
     private $project;
 
-    public function __construct($token)
+    public function __construct($token, $user, $repo)
     {
-        $this->username = env('CIRCLE_USERNAME');
-        $this->project = env('CIRCLE_REPONAME');
-
         $this->token = $token;
+        $this->username = $user;
+        $this->project = $repo;
     }
 
     /**
@@ -41,14 +39,15 @@ class CircleciAPI
     {
         $curlHandle = curl_init();
 
-        $url = 'https://circleci.com/api/v1.1' . $url;
+        $url = 'https://circleci.com/api/v1.1' . $url . '?circle-token=' . $this->token;
 
         $headers = [
-            'Accept:application/json',
-            'Authorization:'.$this->token,
+            'Accept:application/json'
         ];
+
         curl_setopt($curlHandle, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($curlHandle, CURLOPT_URL, $url);
+        curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
 
         $response = curl_exec($curlHandle);
         curl_close($curlHandle);
