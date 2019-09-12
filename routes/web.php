@@ -11,12 +11,6 @@
 |
 */
 
-if (env('APP_DEBUG')) {
-    $router->get('/', function (\Illuminate\Http\Request $request) {
-        return ['message' => 'It works!'];
-    });
-}
-
 $middleware = 'travis';
 if (env('CIRCLE_API_TOKEN')) {
     $middleware = 'circleci';
