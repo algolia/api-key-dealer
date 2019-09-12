@@ -2,16 +2,6 @@
 
 namespace App\ExternalApis;
 
-/**
- * Class CircleciAPI
- *
- * CIRCLE_API_TOKEN
- * CIRCLE_BUILD_NUM
- * CIRCLE_PROJECT_USERNAME
- * CIRCLE_PROJECT_REPONAME
- *
- * @package App\ExternalApis
- */
 class CircleciAPI
 {
     private $token;
@@ -27,9 +17,6 @@ class CircleciAPI
         $this->project = $repo;
     }
 
-    /**
-     * Endpoint /project/:vcs-type/:username/:project/:build_num
-     */
     public function getJob($jobId)
     {
         return $this->doRequest('/project/github/' . $this->username . '/' . $this->project . '/' . (int) $jobId);
@@ -42,7 +29,7 @@ class CircleciAPI
         $url = 'https://circleci.com/api/v1.1' . $url . '?circle-token=' . $this->token;
 
         $headers = [
-            'Accept:application/json'
+            'Accept:application/json',
         ];
 
         curl_setopt($curlHandle, CURLOPT_HTTPHEADER, $headers);
