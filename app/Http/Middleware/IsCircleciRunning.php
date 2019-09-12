@@ -3,7 +3,6 @@
 namespace App\Http\Middleware;
 
 use App\ExternalApis\CircleciAPI;
-use function PHPSTORM_META\type;
 
 class IsCircleciRunning
 {
