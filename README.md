@@ -58,6 +58,25 @@ The job ID can be found in the env variable `TRAVIS_JOB_ID` (it's set automatica
 
 ## Debugging
 
+### Setup the repository locall and run tests
+
+```
+git clone https://github.com/algolia/api-key-dealer
+cd api-key-dealer
+composer install
+cp .env.example .env
+
+# edit to `.env` and add
+# - test_ADMIN
+# - NOCTT5TZUU_ADMIN
+# - UCX3XB3SH4_ADMIN
+# - CTS_1_ADMIN_KEY
+# - CTS_2_ADMIN_KEY
+    
+# Run tests
+composer test
+```
+
 ### Call local API
 
 If you want to test it locally, set the DEALER_HOST environment variable to the host
