@@ -7,25 +7,22 @@ use Illuminate\Support\Facades\Log;
 
 class SetSource
 {
-    private $request;
-
     /**
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
+     *
      * @return mixed
      */
     public function handle($request, Closure $next)
     {
-        $this->request = $request;
-
         $ip = $request->getClientIp();
 
         $ipAuthorized = $this->isLocal($ip)
             || $this->isFromAuthorizedIp($ip)
             || $this->isFromTravis($ip)
-            || $this->isFromCircleCi();
+            || $this->isFromCircleCi($request);
 
         if ($ipAuthorized) {
             return $next($request);
@@ -37,7 +34,7 @@ class SetSource
             'Is it a crawler?' => "http://$ip/",
         ]);
 
-        return response("Sorry the IP ".$request->getClientIp()." isn't in the allowed range", 400);
+        return response("Sorry the IP " . $request->getClientIp() . " isn't in the allowed range", 400);
     }
 
     private function isLocal($ip)
@@ -47,7 +44,7 @@ class SetSource
 
             Log::channel('slack')->debug('Incoming request from local source', [
                 'Request ID' => config('request_id'),
-                'From' => $ip
+                'From' => $ip,
             ]);
 
             return true;
@@ -60,7 +57,6 @@ class SetSource
      * call the API from work or from home.
      *
      * In`config/app.php` add an entry to `under authorized_ip_addresses`.
-     *
      */
     private function isFromAuthorizedIp($ip)
     {
@@ -73,7 +69,7 @@ class SetSource
 
             Log::channel('slack')->debug('Incoming request from authorized source', [
                 'Request ID' => config('request_id'),
-                'From' => $authorizedIps[$ip]
+                'From' => $authorizedIps[$ip],
             ]);
         }
 
@@ -87,7 +83,7 @@ class SetSource
 
             Log::channel('slack')->debug('Incoming request from authorized source', [
                 'Request ID' => config('request_id'),
-                'From' => $ip
+                'From' => $ip,
             ]);
 
             return true;
@@ -100,21 +96,17 @@ class SetSource
     {
         $travisIps = config('travis.addresses');
 
-        if (in_array($ip, $travisIps)) {
-            return true;
-        }
-
-        return false;
+        return in_array($ip, $travisIps);
     }
 
-    private function isFromCircleCi()
+    private function isFromCircleCi($request)
     {
         if (env('CIRCLE_API_TOKEN')) {
             config(['source' => 'circleci']);
 
             Log::channel('slack')->debug('Incoming request from authorized source', [
                 'Request ID' => config('request_id'),
-                'From' => 'CIRCLE CI #' . $this->request->get('CIRCLE_BUILD_NUM'). ': ' . $this->request->get('CIRCLE_USERNAME') . '/'. $this->request->get('CIRCLE_REPONAME')
+                'From' => 'CIRCLE CI #' . $request->get('CIRCLE_BUILD_NUM') . ': ' . $request->get('CIRCLE_USERNAME') . '/' . $request->get('CIRCLE_REPONAME'),
             ]);
 
             return true;
