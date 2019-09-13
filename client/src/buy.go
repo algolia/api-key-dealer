@@ -12,8 +12,11 @@ import (
 )
 
 type Payload struct {
-	TRAVIS_JOB_ID string
-	REPO_SLUG     string
+	TRAVIS_JOB_ID       string
+	REPO_SLUG           string
+	CIRCLE_BUILD_NUM    string
+	CIRCLE_USERNAME     string
+	CIRCLE_REPONAME     string
 }
 
 type Credentials struct {
@@ -91,8 +94,11 @@ func export() {
 
 func getApiKey() Credentials {
 	p := Payload{
-		TRAVIS_JOB_ID: string(os.Getenv("TRAVIS_JOB_ID")),
-		REPO_SLUG:     string(os.Getenv("TRAVIS_REPO_SLUG")),
+		TRAVIS_JOB_ID:      os.Getenv("TRAVIS_JOB_ID"),
+		REPO_SLUG:          os.Getenv("TRAVIS_REPO_SLUG"),
+		CIRCLE_BUILD_NUM:   os.Getenv("CI_BUILD_NUM"),
+		CIRCLE_USERNAME:    os.Getenv("CI_PROJ_USERNAME"),
+		CIRCLE_REPONAME:    os.Getenv("CI_PROJ_REPONAME"),
 	}
 	jsonPayload, err := json.Marshal(p)
 
@@ -105,7 +111,7 @@ func getApiKey() Credentials {
 
 	req, err := http.NewRequest(
 		"POST",
-		url+"/1/travis/keys/new",
+		url+"/1/algolia/keys/new",
 		strings.NewReader(string(jsonPayload)),
 	)
 
@@ -136,7 +142,7 @@ func getApiKey() Credentials {
 	err = json.Unmarshal(body, &credentials)
 	if err != nil {
 		log.Println(string(body))
-		log.Fatal(err)
+		log.Println(err)
 		os.Exit(101)
 	}
 
@@ -145,7 +151,7 @@ func getApiKey() Credentials {
 
 func getFormattedComment(comment string) string {
 	escaped := strings.Replace(comment, `'`, `'"'"'`, -1)
-	return "' ~ " + escaped + " ~ '"
+	return "' ~ Comment: " + escaped + " ~ '"
 }
 
 func getFormattedRequestId(reqId string) string {

@@ -47,7 +47,7 @@ class IsTravisRunning
         $statusOk = 'started' === $job['job']['state'];
 
         $orga = explode('/', $job['job']['repository_slug'])[0];
-        $repoOk = \in_array($orga, ['algolia', 'julienbourdeau']);
+        $repoOk = \in_array($orga, ['algolia']);
 
         return $statusOk && $repoOk;
     }

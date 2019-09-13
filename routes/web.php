@@ -11,10 +11,6 @@
 |
 */
 
-if (env('APP_DEBUG')) {
-    $router->get('/', function (\Illuminate\Http\Request $request) {
-        return ['message' => 'It works!'];
-    });
-}
-
-$router->post('/1/travis/keys/new', 'TravisController@getAlgoliaCredentials');
+$router->post('/1/algolia/keys/new', [
+    'uses' => 'AlgoliaController@getAlgoliaCredentials',
+]);

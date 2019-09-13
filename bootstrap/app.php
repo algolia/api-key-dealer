@@ -64,10 +64,6 @@ $app->middleware([
     \App\Http\Middleware\SetRepoConfig::class,
 ]);
 
-$app->routeMiddleware([
-    //
-]);
-
 /*
 |--------------------------------------------------------------------------
 | Register Service Providers

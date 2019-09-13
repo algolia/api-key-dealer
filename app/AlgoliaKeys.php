@@ -7,11 +7,6 @@ use Illuminate\Http\Request;
 
 class AlgoliaKeys
 {
-    public function __construct()
-    {
-        //
-    }
-
     public function forge(Config $config, $withCtsCredentials = false)
     {
         $response = [
@@ -32,7 +27,6 @@ class AlgoliaKeys
 
         return $response;
     }
-
 
     private function addDedicatedKeys(array $response, Config $config)
     {
