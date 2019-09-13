@@ -28,12 +28,6 @@ class SetSource
             return $next($request);
         }
 
-        Log::channel('slack')->debug('Incoming request from unauthorized source', [
-            'Request ID' => config('request_id'),
-            'IP address' => $ip,
-            'Is it a crawler?' => "http://$ip/",
-        ]);
-
         return response("Sorry the IP " . $request->getClientIp() . " isn't in the allowed range", 400);
     }
 
@@ -41,11 +35,6 @@ class SetSource
     {
         if (in_array($ip, ['127.0.0.1', '::1'])) {
             config(['source' => 'local']);
-
-            Log::channel('slack')->debug('Incoming request from local source', [
-                'Request ID' => config('request_id'),
-                'From' => $ip,
-            ]);
 
             return true;
         }
@@ -67,10 +56,6 @@ class SetSource
         if ($isAuthorized) {
             config(['source' => 'whitelist']);
 
-            Log::channel('slack')->debug('Incoming request from authorized source', [
-                'Request ID' => config('request_id'),
-                'From' => $authorizedIps[$ip],
-            ]);
         }
 
         return $isAuthorized;
@@ -80,11 +65,6 @@ class SetSource
     {
         if ($this->isTravisIpAddress($ip)) {
             config(['source' => 'travis']);
-
-            Log::channel('slack')->debug('Incoming request from authorized source', [
-                'Request ID' => config('request_id'),
-                'From' => $ip,
-            ]);
 
             return true;
         }
