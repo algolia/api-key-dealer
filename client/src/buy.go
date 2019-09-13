@@ -94,11 +94,11 @@ func export() {
 
 func getApiKey() Credentials {
 	p := Payload{
-		TRAVIS_JOB_ID:      string(os.Getenv("TRAVIS_JOB_ID")),
-		REPO_SLUG:          string(os.Getenv("TRAVIS_REPO_SLUG")),
-		CIRCLE_BUILD_NUM:   string(os.Getenv("CI_BUILD_NUM")),
-		CIRCLE_USERNAME:    string(os.Getenv("CI_PROJ_USRNAME")),
-		CIRCLE_REPONAME:    string(os.Getenv("CI_PROJ_REPONAME")),
+		TRAVIS_JOB_ID:      os.Getenv("TRAVIS_JOB_ID"),
+		REPO_SLUG:          os.Getenv("TRAVIS_REPO_SLUG"),
+		CIRCLE_BUILD_NUM:   os.Getenv("CI_BUILD_NUM"),
+		CIRCLE_USERNAME:    os.Getenv("CI_PROJ_USERNAME"),
+		CIRCLE_REPONAME:    os.Getenv("CI_PROJ_REPONAME"),
 	}
 	jsonPayload, err := json.Marshal(p)
 
@@ -142,7 +142,7 @@ func getApiKey() Credentials {
 	err = json.Unmarshal(body, &credentials)
 	if err != nil {
 		log.Println(string(body))
-		log.Fatal(err)
+		log.Println(err)
 		os.Exit(101)
 	}
 
