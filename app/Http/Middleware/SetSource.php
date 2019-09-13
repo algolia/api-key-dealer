@@ -101,7 +101,7 @@ class SetSource
 
     private function isFromCircleCi($request)
     {
-        if (env('CIRCLE_API_TOKEN')) {
+        if ($request->has('CIRCLE_BUILD_NUM')) {
             config(['source' => 'circleci']);
 
             Log::channel('slack')->debug('Incoming request from authorized source', [

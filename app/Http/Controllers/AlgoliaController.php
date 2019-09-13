@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\AlgoliaKeys;
 use App\Config;
+use App\Http\Middleware\IsCircleciRunning;
+use App\Http\Middleware\IsTravisRunning;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class AlgoliaController extends Controller
 {
@@ -17,12 +20,15 @@ class AlgoliaController extends Controller
     public function __construct(AlgoliaKeys $algoliaKeys)
     {
         $this->algoliaKeys = $algoliaKeys;
+
+        $this->middleware(IsTravisRunning::class);
+        $this->middleware(IsCircleciRunning::class);
     }
 
     public function getAlgoliaCredentials(Request $request)
     {
         $config = config('repository-config');
-        $isClient = str_contains(config('repository-name'), '-client-');
+        $isClient = Str::contains(config('repository-name'), '-client-');
 
         $keys = $this->algoliaKeys->forge($config, $isClient);
 

@@ -11,12 +11,6 @@
 |
 */
 
-$middleware = 'travis';
-if (env('CIRCLE_API_TOKEN')) {
-    $middleware = 'circleci';
-}
-
 $router->post('/1/algolia/keys/new', [
-    'middleware' => $middleware,
     'uses' => 'AlgoliaController@getAlgoliaCredentials',
 ]);

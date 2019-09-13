@@ -64,11 +64,6 @@ $app->middleware([
     \App\Http\Middleware\SetRepoConfig::class,
 ]);
 
-$app->routeMiddleware([
-    'travis' => \App\Http\Middleware\IsTravisRunning::class,
-    'circleci' => \App\Http\Middleware\IsCircleciRunning::class,
-]);
-
 /*
 |--------------------------------------------------------------------------
 | Register Service Providers
