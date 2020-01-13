@@ -4,13 +4,7 @@ return [
     'algolia/search-bundle' => [
         'app-id' => 'I2UB5B7IZB',
         'key-params' => [
-            'acl' => [
-                'search',
-                'addObject', 'deleteObject',
-                'listIndexes', 'deleteIndex',
-                'settings', 'editSettings',
-            ],
-            'indexes' => ['TRAVIS_sf_*'],
+            'indexes' => ['TRAVIS_sf_*', 'atomic_temporary_*'],
         ],
     ],
     'algolia/algoliasearch-client-php' => [
