@@ -10,7 +10,7 @@ return [
                 'listIndexes', 'deleteIndex',
                 'settings', 'editSettings',
             ],
-            'indexes' => ['TRAVIS_sf_*'],
+            'indexes' => ['TRAVIS_sf_*', 'atomic_temporary_*'],
         ],
     ],
     'algolia/algoliasearch-client-php' => [
