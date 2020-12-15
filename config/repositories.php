@@ -74,4 +74,10 @@ return [
             'maxQueriesPerIPPerHour' => 10000,
         ],
     ],
+    'algolia/scout-extended' => [
+        'app-id' => 'I2UB5B7IZB',
+        'key-params' => [
+            'maxQueriesPerIPPerHour' => 10000,
+        ],
+    ],
 ];
