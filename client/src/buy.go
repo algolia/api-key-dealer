@@ -21,9 +21,6 @@ type Payload struct {
 
 type Credentials struct {
 	RequestId        string            `json:"request-id"`
-	AppId            string            `json:"app-id"`
-	ApiKey           string            `json:"api-key"`
-	ApiSearchKey     string            `json:"api-search-key"`
 	CtsAppId1        string            `json:"ALGOLIA_APPLICATION_ID_1"`
 	CtsApiKey1       string            `json:"ALGOLIA_ADMIN_KEY_1"`
 	CtsApiSearchKey1 string            `json:"ALGOLIA_SEARCH_KEY_1"`
