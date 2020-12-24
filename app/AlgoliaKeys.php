@@ -65,7 +65,11 @@ class AlgoliaKeys
 
         return array_merge($response, [
             'ALGOLIA_APPLICATION_ID_1' => $config->getCtsAppId(1),
+            'ALGOLIA_APPLICATION_ID' => $config->getCtsAppId(1),
+            'ALGOLIA_APP_ID' => $config->getCtsAppId(1),
             'ALGOLIA_ADMIN_KEY_1' => $writeKey1,
+            'ALGOLIA_API_KEY' => $writeKey1,
+            'ALGOLIA_SECRET' => $writeKey1,
             'ALGOLIA_SEARCH_KEY_1' => $searchKey1,
             'ALGOLIA_APPLICATION_ID_2' => $config->getCtsAppId(2),
             'ALGOLIA_ADMIN_KEY_2' => $writeKey2,
