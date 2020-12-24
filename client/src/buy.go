@@ -56,11 +56,12 @@ func export() {
 	credentials := getApiKey()
 
 	cmd := fmt.Sprintf(
-		"export ALGOLIA_APP_ID=%s ALGOLIA_APPLICATION_ID=%s ALGOLIA_API_KEY=%s ALGOLIA_SEARCH_API_KEY=%s",
-		credentials.AppId,
-		credentials.AppId,
-		credentials.ApiKey,
-		credentials.ApiSearchKey,
+		"export ALGOLIA_APP_ID=%s ALGOLIA_APPLICATION_ID=%s ALGOLIA_API_KEY=%s ALGOLIA_SECRET=%s ALGOLIA_SEARCH_API_KEY=%s",
+		credentials.CtsAppId1,
+		credentials.CtsAppId1,
+		credentials.CtsApiKey1,
+		credentials.CtsApiKey1,
+		credentials.CtsApiSearchKey1,
 	)
 
 	cmd += fmt.Sprintf(
