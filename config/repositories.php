@@ -4,13 +4,13 @@ return [
     'algolia/search-bundle' => [
         'app-id' => 'I2UB5B7IZB',
         'key-params' => [
-            'indexes' => ['TRAVIS_sf_*', 'atomic_temporary_*'],
+            'indexes' => ['sf_*', 'atomic_temporary_*'],
         ],
     ],
     'algolia/algoliasearch-client-php' => [
         'app-id' => 'I2UB5B7IZB',
         'key-params' => [
-            'indexes' => ['TRAVIS_php_*'],
+            'indexes' => ['php_*'],
         ],
     ],
     'algolia/algoliasearch-client-php-helper' => [
@@ -24,7 +24,7 @@ return [
         'key-params' => [
             'maxQueriesPerIPPerHour' => 10000,
             'maxHitsPerQuery' => 300,
-            'indexes' => ['TRAVIS_RAILS_*', 'rails_*'],
+            'indexes' => ['rails_*'],
         ],
     ],
     'algolia/algoliasearch-client-ruby' => [
@@ -32,7 +32,7 @@ return [
         'key-params' => [
             'maxQueriesPerIPPerHour' => 50000,
             'maxHitsPerQuery' => 3000,
-            'indexes' => ['TRAVIS_RUBY_*'],
+            'indexes' => ['ruby_*'],
         ],
     ],
     'algolia/algoliasearch-magento' => [
